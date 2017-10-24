@@ -1,0 +1,70 @@
+package lt.web.models;
+
+import javax.persistence.*;
+
+@Entity
+@Table(name = "webusers", uniqueConstraints = {
+        @UniqueConstraint(columnNames = "USER_ID"),
+        @UniqueConstraint(columnNames = "EMAIL"),
+        @UniqueConstraint(columnNames = "PASSWORD"),
+        @UniqueConstraint(columnNames = "ROLE_ID")})
+public class Users {
+    int userId;
+    String email;
+    String password;
+    String password_auth;
+    Roles role;
+
+    public Users() {
+    }
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "USER_ID", unique = true, nullable = false)
+    public int getUserId() {
+        return userId;
+    }
+
+    public void setUserId(int userId) {
+        this.userId = userId;
+    }
+
+    @Column(name = "EMAIL", unique = true, nullable = false, length = 64)
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    @Column(name = "PASSWORD", unique = true, nullable = false, length = 64)
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+    // tai reiskia, kad neis i lentele, taciau turesim si,kaip objekta
+    @Transient
+    public String getPassword_auth() {
+        return password_auth;
+    }
+
+    public void setPassword_auth(String password_auth) {
+        this.password_auth = password_auth;
+    }
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "ROLE_ID")
+    public Roles getRole() {
+        return role;
+    }
+
+    public void setRole(Roles role) {
+        this.role = role;
+    }
+
+}

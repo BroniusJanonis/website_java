@@ -1,0 +1,70 @@
+package lt.web.models;
+
+import javax.persistence.*;
+import java.util.List;
+
+@Entity
+@Table(name = "webschoolclasses", uniqueConstraints = {
+        @UniqueConstraint(columnNames = "SCHOOL_CLASSES_ID"),
+        @UniqueConstraint(columnNames = "TEACHER_ID"),
+        @UniqueConstraint(columnNames = "SUBJECT"),
+        @UniqueConstraint(columnNames = "TITLE")})
+public class SchoolClasses {
+    int schoolClassesId;
+    String subject;
+    String title;
+    List<Children> childrenList;
+    Teachers teacher;
+
+    public SchoolClasses() {
+    }
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "SCHOOL_CLASSES_ID", unique = true, nullable = false)
+    public int getSchoolClassesId() {
+        return schoolClassesId;
+    }
+
+    public void setSchoolClassesId(int schoolClassesId) {
+        this.schoolClassesId = schoolClassesId;
+    }
+
+    @Column(name = "SUBJECT", unique = true, nullable = false, length = 64)
+    public String getSubject() {
+        return subject;
+    }
+
+    public void setSubject(String subject) {
+        this.subject = subject;
+    }
+
+    @Column(name = "TITLE", unique = true, nullable = false, length = 64)
+    public String getTitle() {
+        return title;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
+    }
+
+    // "schoolClasses" is seteriu turi sutapt
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "schoolClasses")
+    public List<Children> getChildrenList() {
+        return childrenList;
+    }
+
+    public void setChildrenList(List<Children> childrenList) {
+        this.childrenList = childrenList;
+    }
+
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "TEACHER_ID")
+    public Teachers getTeacher() {
+        return teacher;
+    }
+
+    public void setTeacher(Teachers teacher) {
+        this.teacher = teacher;
+    }
+}
