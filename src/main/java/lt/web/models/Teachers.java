@@ -3,9 +3,7 @@ package lt.web.models;
 import javax.persistence.*;
 
 @Entity
-@Table(name = "webteachers", uniqueConstraints = {
-        @UniqueConstraint(columnNames = "TEACHER_ID"),
-        @UniqueConstraint(columnNames = "USER_ID") })
+@Table(name = "webteachers")
 public class Teachers {
     int teacherId;
     String name;

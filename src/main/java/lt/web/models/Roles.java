@@ -4,9 +4,7 @@ import javax.persistence.*;
 import java.util.List;
 
 @Entity
-@Table(name = "webroles", uniqueConstraints = {
-        @UniqueConstraint(columnNames = "ROLE_ID"),
-        @UniqueConstraint(columnNames = "ROLE_TITLE")})
+@Table(name = "webroles")
 public class Roles {
     int roleId;
     String roleTitle;

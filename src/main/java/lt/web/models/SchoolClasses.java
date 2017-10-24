@@ -4,11 +4,7 @@ import javax.persistence.*;
 import java.util.List;
 
 @Entity
-@Table(name = "webschoolclasses", uniqueConstraints = {
-        @UniqueConstraint(columnNames = "SCHOOL_CLASSES_ID"),
-        @UniqueConstraint(columnNames = "TEACHER_ID"),
-        @UniqueConstraint(columnNames = "SUBJECT"),
-        @UniqueConstraint(columnNames = "TITLE")})
+@Table(name = "webschoolclasses")
 public class SchoolClasses {
     int schoolClassesId;
     String subject;

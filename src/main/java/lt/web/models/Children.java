@@ -4,13 +4,7 @@ import javax.persistence.*;
 import java.util.List;
 
 @Entity
-@Table(name = "webchildren", uniqueConstraints = {
-        @UniqueConstraint(columnNames = "CHILD_ID"),
-        @UniqueConstraint(columnNames = "FOSTER_ID"),
-        @UniqueConstraint(columnNames = "USER_ID"),
-        @UniqueConstraint(columnNames = "NAME"),
-        @UniqueConstraint(columnNames = "SURNAME"),
-        @UniqueConstraint(columnNames = "SCHOOL_CLASSES_ID")})
+@Table(name = "webchildren")
 public class Children {
     private int childId;
     private String name;

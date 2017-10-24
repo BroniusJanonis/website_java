@@ -3,11 +3,7 @@ package lt.web.models;
 import javax.persistence.*;
 
 @Entity
-@Table(name = "webusers", uniqueConstraints = {
-        @UniqueConstraint(columnNames = "USER_ID"),
-        @UniqueConstraint(columnNames = "EMAIL"),
-        @UniqueConstraint(columnNames = "PASSWORD"),
-        @UniqueConstraint(columnNames = "ROLE_ID")})
+@Table(name = "webusers")
 public class Users {
     int userId;
     String email;
