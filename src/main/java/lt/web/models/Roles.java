@@ -6,9 +6,9 @@ import java.util.List;
 @Entity
 @Table(name = "webroles")
 public class Roles {
-    int roleId;
-    String roleTitle;
-    List<Users> usersList;
+    private int roleId;
+    private String roleTitle;
+    private List<Users> usersList;
 
     public Roles() {
     }

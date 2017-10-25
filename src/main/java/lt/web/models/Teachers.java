@@ -5,13 +5,13 @@ import javax.persistence.*;
 @Entity
 @Table(name = "webteachers")
 public class Teachers {
-    int teacherId;
-    String name;
-    String surname;
-    String phone;
-    String subject;
-    SchoolClasses schoolClasses;
-    Users user;
+    private int teacherId;
+    private String name;
+    private String surname;
+    private String phone;
+    private String subject;
+    private SchoolClasses schoolClasses;
+    private Users user;
 
     public Teachers() {
     }

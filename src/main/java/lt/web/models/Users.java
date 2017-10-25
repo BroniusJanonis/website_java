@@ -5,11 +5,11 @@ import javax.persistence.*;
 @Entity
 @Table(name = "webusers")
 public class Users {
-    int userId;
-    String email;
-    String password;
-    String password_auth;
-    Roles role;
+    private int userId;
+    private String email;
+    private String password;
+    private String password_auth;
+    private Roles role;
 
     public Users() {
     }

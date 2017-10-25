@@ -6,13 +6,13 @@ import java.util.List;
 @Entity
 @Table(name = "webfosters")
 public class Fosters {
-    int fosterId;
-    String name;
-    String surname;
-    String phone;
-    String address;
-    List<Children> childrenList;
-    Users user;
+    private int fosterId;
+    private String name;
+    private String surname;
+    private String phone;
+    private String address;
+    private List<Children> childrenList;
+    private Users user;
 
     public Fosters() {
     }

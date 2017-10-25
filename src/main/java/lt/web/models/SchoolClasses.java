@@ -6,11 +6,11 @@ import java.util.List;
 @Entity
 @Table(name = "webschoolclasses")
 public class SchoolClasses {
-    int schoolClassesId;
-    String subject;
-    String title;
-    List<Children> childrenList;
-    Teachers teacher;
+    private int schoolClassesId;
+    private String subject;
+    private String title;
+    private List<Children> childrenList;
+    private Teachers teacher;
 
     public SchoolClasses() {
     }
