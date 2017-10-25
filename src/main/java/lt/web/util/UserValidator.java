@@ -36,7 +36,7 @@ public class UserValidator implements Validator {
         ValidationUtils.rejectIfEmptyOrWhitespace(errors, "email", "EmptySpace");
         // Jeigu jau yra toks vartotojas ir reikia pranesti, jog toks egzistuoja
         // jei egzistuoja, tai negali registruoti, nes toks jau yra (jei nors viena irasa gaunam, tai jis jau nebe null, todel netenkins)
-        if(userRep.findByEmail(user.getEmail())!=null){
+        if(userRep.findFirstByEmail(user.getEmail())!=null){
             // kuriam laukui irasom, tai prie "username", o "Warning.dublicate.email" yra errorCode
             errors.rejectValue("email", "Warning.dublicate.email");
         }
@@ -53,7 +53,7 @@ public class UserValidator implements Validator {
         }
         // jei password ir confirm password keiciasi
         if(!user.getPassword_auth().equals(user.getPassword())){
-            errors.rejectValue("passwordconfirm", "Diff.passwordConfirm");
+            errors.rejectValue("password_auth", "Diff.passwordConfirm");
         }
     }
 }

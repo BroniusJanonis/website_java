@@ -43,7 +43,7 @@ public class UserController {
             return "registration";
         }
         // iraso nauja useri. Apsirasem UserRoleServiceImp klaseje save su roles parinkimu (siuo atveju visas pridedam apsirase, o reiketu tik viena) ir password encoding
-        userServiceRep.save(userForm);
+        userServiceRep.saveUser(userForm);
         // tikrina sauguma
         securityService.login(userForm.getEmail(), userForm.getPassword_auth());
         return "redirect:/welcomemainpage";

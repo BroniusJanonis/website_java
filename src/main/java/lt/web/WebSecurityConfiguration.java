@@ -29,6 +29,12 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
         // /resources/** < /** reiskia, kad viska
         http.authorizeRequests().antMatchers("/resources/**", "/register").permitAll()
                 .anyRequest().authenticated()
+                // apsirasom, koki duomenys vaikscios is formLogin
+                // , nes getUserByUsername is DetailServices laukia username, o ne email ir meta null
+                .and()
+                .formLogin()
+                .usernameParameter("email")
+                .passwordParameter("password")
                 // jei dar turim papildomu salygu, tai su and() pridedame
                 .and()
                 // login page, cia spring security. Reiskia, kad, kai kreipsis i "/login", tai nukreips pirma i musu spring security autoracijos login
