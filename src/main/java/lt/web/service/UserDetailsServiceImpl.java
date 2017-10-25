@@ -22,6 +22,9 @@ public class UserDetailsServiceImpl implements UserDetailsService {
     @Override
     // Transaction readOnly, kad nerakintumem tranasactcijos (nesupratau iki galo)
     @Transactional(readOnly = true)
+    // loadUserByUsername yra Spring security metodas, kuris isijungia per UserDetails (spring security klase) kiekvienu metu
+    // , kai pasikreipiama i musu apsirasytus WebSecurityConfiguration.java puslapius
+    // tuomet WebSecurityConfiguration.java > configureGlobal() tikrinam Autorizacija ar sutampa su is web ivestais ir tikrinam success or failure
     public UserDetails loadUserByUsername(String s) throws UsernameNotFoundException {
         Users user = userRep.findByEmail(s);
         // Autorizacija. Pasetinam, kokia user role bus

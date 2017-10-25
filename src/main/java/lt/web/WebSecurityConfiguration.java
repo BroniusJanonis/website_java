@@ -22,23 +22,36 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
         return new BCryptPasswordEncoder();
     };
 
-    // jei autorizacija nepatvirtinta, tai kur numesti (i pagridnini ar error, ar registruotis per naujo)
+    // jei autorizacija nepatvirtinta per public void configureGlobal, tai kur numesti (i pagridnini ar error, ar registruotis per naujo)
     protected void configure(HttpSecurity http) throws Exception{
-        // kuriuos psl praleidziame (nes pirma login langa praleidziame neautorizavus, gali buti nepasijunges
-        // Taip pat ir JavaScript source ar pan)
+        // kuriuos psl praleidziame (nes tik login ir register langus prileidziame [controleriu] neautorizavus)
+        // Taip pat praleidziam ir Css, JavaScript source ar pan
         // /resources/** < /** reiskia, kad viska
         http.authorizeRequests().antMatchers("/resources/**", "/register").permitAll()
                 .anyRequest().authenticated()
                 // jei dar turim papildomu salygu, tai su and() pridedame
                 .and()
-                // login page
+                // login page, cia spring security. Reiskia, kad, kai kreipsis i "/login", tai nukreips pirma i musu spring security autoracijos login
                 .formLogin().loginPage("/login").permitAll()
-                // ir tada issijungiam (?)
-                .and().logout().permitAll();
+                // cia nukreipiam, kai success (autorizacija patvirtinta per configureGlobal [apacioje apsirase])
+                .defaultSuccessUrl("/welcomemainpage")  //< testuojam
+                  // on failure galime numeski i bet kuri kita jsp, tarkim vel i login langa.
+                  // Siuo atveju uzkomentuojam .failureUrl("/login"), nes mes apsirase controleryje, jog on, kai security login failure, tai permeta i musu controlerio "/login"
+                  // , o ten mes sugriebiam is security  gauta error bei si persiunciam atgal controleryje per return i login.jsp langa, bet si karta jau su error (error apsirase esam webe)
+                  // .failureUrl("/login")
+                // logout() pagrazina i login langa arba gal galim apsirasyti savo logout langa?
+                .and().logout().permitAll()
+                // login ir logout yra spring main metodai, jei atsijungi su logout, tai pagrazina i login > kas yra mano loginMain.jsp
+                .logoutSuccessUrl("/");
         // praleidziame resourses visus, tada register langa, tada login ir tada nutraukiam viska
     }
 
-    // uzkoduojame (?)
+    // atkoduojame duomenis is DB, kad globaliai sifruotu (patikrina ar nera prisijungusio vartotojo)
+    // Jungiantis per weba, kuris siuncia duomenis i "/login"
+    // , pirma security, pagal gauta useri ir password, tikrina ar useris jau yra sistemoje ir ar jo atkoduotas password'as is DB atitinka webe suvesta
+    // Jei succes, tai leidzia toliau eit, kaip apsirase "protected void configure()" .defaultSuccessUrl
+    // Jei failure, tai atiduodam handlint controlerio metodui "/login" arba galim securityje cia jau apsirasyt
+    // AuthenticationManagerBuilder, kaip supratau, yra atsakingas tikrinimo tarp UserDetailsService ir is web ivestu duomenu
     @Autowired
     public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
         auth.userDetailsService(userDetailsService).passwordEncoder(bCryptPasswordEncoder());
