@@ -23,7 +23,7 @@ public class UserServiceRep {
     public void save(Users userForm) {
         // kadangi esam bCryptPasswordEncoder apsirase WebSecyruttConfiguration klaseje, kuris priima user, tai uzkoduojame
         userForm.setPassword(bCryptPasswordEncoder.encode(userForm.getPassword()));
-        userForm.setRole((Roles) roleRep.findAll());  // duok visus ir prisiskiriam i HashSet
+        userForm.setRole(roleRep.findFirstByRoleId(1));  // duok visus ir prisiskiriam i HashSet
         // kadangi jau @autowirine esamt UserRep, tai ten yra spring JPA implementuoti, kuris duoda savo metoda save()
         userRep.save(userForm);
     }
