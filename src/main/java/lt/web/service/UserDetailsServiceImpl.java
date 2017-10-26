@@ -21,9 +21,9 @@ import java.util.Set;
 public class UserDetailsServiceImpl implements UserDetailsService {
 
     @Autowired
-    UserRep userRep;
+    private UserRep userRep;
     @Autowired
-    RoleRep roleRep;
+    private RoleRep roleRep;
 
     @Override
     // Transaction readOnly, kad nerakintumem tranasactcijos (nesupratau iki galo)
@@ -41,6 +41,6 @@ public class UserDetailsServiceImpl implements UserDetailsService {
         grantedAuthorities.add(new SimpleGrantedAuthority(roleTitle));
         // new org.springframework.security.core.userdetails. User, tai, koki tipa pagrazinsiu ir User() viduje pagrazinam autorizacija
         // pagrazinam username, password ir autorizacija
-        return new org.springframework.security.core.userdetails.User(user.getEmail(), user.getPassword(), (Collection<? extends GrantedAuthority>) grantedAuthorities);
+        return new org.springframework.security.core.userdetails.User(user.getEmail(), user.getPassword(), grantedAuthorities);
     }
 }

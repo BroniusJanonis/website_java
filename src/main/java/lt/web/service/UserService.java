@@ -10,12 +10,12 @@ import org.springframework.stereotype.Service;
 
 // Service anotacija, skirta User Services Repository (irasymams ir modifikacijai su User
 @Service
-public class UserServiceRep {
+public class UserService implements IUserService{
 
     @Autowired
-    UserRep userRep;
+    private UserRep userRep;
     @Autowired
-    RoleRep roleRep;
+    private RoleRep roleRep;
     // Encoder'is, uzkoduoti password, jog duomenu bazeje nefiguruotu grynas tekstas. Ji jau apsirese esam WebSecyruttConfiguration
     @Autowired
     BCryptPasswordEncoder bCryptPasswordEncoder;

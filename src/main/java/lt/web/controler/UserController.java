@@ -1,11 +1,12 @@
 package lt.web.controler;
 
+import lt.web.modelDTO.TeachersDTO;
+import lt.web.models.Teachers;
 import lt.web.models.Users;
-import lt.web.repository.UserRep;
-import lt.web.service.SecurityService;
-import lt.web.service.UserServiceRep;
+import lt.web.service.*;
 import lt.web.util.UserValidator;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.ComponentScan;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -13,15 +14,21 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @Controller
+@ComponentScan({"lt.web"})
 public class UserController {
 
     @Autowired
-    UserValidator userValidator;
+    private UserValidator userValidator;
     @Autowired
-    UserServiceRep userServiceRep;
+    private IUserService userService;
     @Autowired
-    SecurityService securityService;
+    private ISecurityService securityService;
+    @Autowired
+    private ITeacherService teacherService;
 
     @RequestMapping(value = "/register", method = RequestMethod.GET)
     public String register(Model model){
@@ -43,7 +50,7 @@ public class UserController {
             return "registration";
         }
         // iraso nauja useri. Apsirasem UserRoleServiceImp klaseje save su roles parinkimu (siuo atveju visas pridedam apsirase, o reiketu tik viena) ir password encoding
-        userServiceRep.saveUser(userForm);
+        userService.saveUser(userForm);
         // tikrina sauguma
         securityService.login(userForm.getEmail(), userForm.getPassword_auth());
         return "redirect:/welcomemainpage";
@@ -52,6 +59,8 @@ public class UserController {
     // ir /welcomemainpage ir / (tuscias) numeta i welcompage
     @RequestMapping(value = "/welcomemainpage", method = RequestMethod.GET)
     public String welcome(Model model){
+        List<TeachersDTO> allTeachers = teacherService.getAllTeachers();
+        model.addAttribute("teachersList", allTeachers);
         return "welcommainpage";
     }
 
@@ -63,7 +72,8 @@ public class UserController {
     //    Pagrazina i cotnroleri, kurio metodas ir value sutampa, turi buti "/login", kitu atveju, jei butu tarkim "/login1", tai nesugaudyti String error ir neperduotume i web
     //        kitu atveju, gavus ir spring security klaida (nes login spring suceess_, mums pagrazina error, kadangi tai nera lygu null, tai pagrazina i loginMain ir ismeta klaida
     //        , kuria atvaziduojam jau apsirasytam .jsp  (pirmu atveju tik pasijungus nemes klaidos, nes pirma karta uzkrauna puslapi per controleri, o jau jungiantis krauna "/login" per security pirma)
-    // Svarbu
+    // Svarbu "/login" turi sutapti su WebSecurityConfiguration, kad failure atveju nukreiptu i cia ir galetumem persiust "error" sunegeruota Spring Security
+    // tikrina du kartus del pasikartojanciu dvieju Mapping'u
     @RequestMapping(value = {"/login", "/"}, method = RequestMethod.GET)
     public String login(Model model, String error){
         if(error!=null){

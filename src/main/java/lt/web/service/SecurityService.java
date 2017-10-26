@@ -9,7 +9,7 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.stereotype.Service;
 
 @Service
-public class SecurityService {
+public class SecurityService implements ISecurityService{
 
     @Autowired
     private UserDetailsService userDetailsService;
@@ -26,7 +26,10 @@ public class SecurityService {
         // pasiimam userdetail name, pasq, ir userdetails (roliu seta) bei pridedam dar is webo gauta passw
         UsernamePasswordAuthenticationToken usernamePasswordAuthenticationToken = new UsernamePasswordAuthenticationToken(userDetails, password_auth, userDetails.getAuthorities());
         // autentikuojames. Tikrinam LoadUserByUsename( gaula per web ivesta username objekta[viduje username, password, role]) su ivestu per web passw, jei atitinka, tesiam
-        // , kitu atveju error ir WebScurityConfiguration.java permeta mus i logina langa beui UserController.java permeta zinute error
+        // , kitu atveju error ir WebScurityConfiguration.java permeta mus i logina langa bei UserController.java permeta zinute error
+        // tiek usernamePasswordAuthenticationToken, tiek authenticationManager.authenticate(usernamePasswordAuthenticationToken); yra autorizuoti, tik authenticationManager
+        // , jei supratau teisingai, atkoduoja usernamePasswordAuthenticationToken esanti userDetails password ir sulygina su ivestu is web, jei sutinka, tuomet istrina is token
+        // , bet palieka isAuthorized (kas buvo ir pries tai). Tuomet, kad ir kitas atkoduotu token'a, ten butu tik autorizacija, bet nebutu jokio password'o
         authenticationManager.authenticate(usernamePasswordAuthenticationToken);
         // kai autentikavomes, tai patirkinam ar vartotojas autentikuotas
         if (usernamePasswordAuthenticationToken.isAuthenticated()) {

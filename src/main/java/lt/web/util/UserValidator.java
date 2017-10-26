@@ -14,7 +14,7 @@ import org.springframework.validation.Validator;
 public class UserValidator implements Validator {
 
     @Autowired
-    UserRep userRep;
+    private UserRep userRep;
 
     // kokia klase palaikom
     @Override
