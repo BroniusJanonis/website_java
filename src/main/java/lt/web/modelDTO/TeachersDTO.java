@@ -1,18 +1,20 @@
 package lt.web.modelDTO;
 
+import java.util.List;
+
 public class TeachersDTO {
     private int teacherId;
     private String name;
     private String surname;
     private String phone;
-    private String subject;
+    private List<SubjectsDTO> subject;
     private SchoolClassesDTO schoolClasses;
     private UsersDTO user;
 
     public TeachersDTO() {
     }
 
-    public TeachersDTO(int teacherId, String name, String surname, String phone, String subject, SchoolClassesDTO schoolClasses, UsersDTO user) {
+    public TeachersDTO(int teacherId, String name, String surname, String phone, List<SubjectsDTO> subject, SchoolClassesDTO schoolClasses, UsersDTO user) {
         this.teacherId = teacherId;
         this.name = name;
         this.surname = surname;
@@ -54,11 +56,11 @@ public class TeachersDTO {
         this.phone = phone;
     }
 
-    public String getSubject() {
+    public List<SubjectsDTO> getSubject() {
         return subject;
     }
 
-    public void setSubject(String subject) {
+    public void setSubject(List<SubjectsDTO> subject) {
         this.subject = subject;
     }
 

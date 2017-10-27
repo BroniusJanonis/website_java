@@ -1,6 +1,7 @@
 package lt.web.models;
 
 import javax.persistence.*;
+import java.util.List;
 
 @Entity
 @Table(name = "webteachers")
@@ -9,7 +10,7 @@ public class Teachers {
     private String name;
     private String surname;
     private String phone;
-    private String subject;
+    private List<Subjects> subject;
     private SchoolClasses schoolClasses;
     private Users user;
 
@@ -54,12 +55,12 @@ public class Teachers {
         this.phone = phone;
     }
 
-    @Column(name = "SUBJECT", nullable = false, length = 64)
-    public String getSubject() {
+   @OneToMany(fetch = FetchType.LAZY, mappedBy = "teacher")
+    public List<Subjects> getSubject() {
         return subject;
     }
 
-    public void setSubject(String subject) {
+    public void setSubject(List<Subjects> subject) {
         this.subject = subject;
     }
 
