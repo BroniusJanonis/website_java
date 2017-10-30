@@ -48,8 +48,12 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
                 // logout() pagrazina i login langa arba gal galim apsirasyti savo logout langa?
                 .and().logout().permitAll()
                 // login ir logout yra spring main metodai, jei atsijungi su logout, tai pagrazina i login > kas yra mano loginMain.jsp
-                .logoutSuccessUrl("/");
+                .logoutSuccessUrl("/")
+                // sitas skirtas, nes kitu atveju disablina postus, tik getas veikia. Kai serveryje veikia sistema, tai nebuna siu problemu (regis?)
+                .and().csrf().disable();
         // praleidziame resourses visus, tada register langa, tada login ir tada nutraukiam viska
+
+
     }
 
     // atkoduojame duomenis is DB, kad globaliai sifruotu (patikrina ar nera prisijungusio vartotojo)
