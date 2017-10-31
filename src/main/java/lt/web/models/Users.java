@@ -14,6 +14,10 @@ public class Users {
     public Users() {
     }
 
+    public Users(int userId) {
+        this.userId = userId;
+    }
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "USER_ID", unique = true, nullable = false)

@@ -42,8 +42,9 @@ Veikia
         <th class="">surname</th>
         <th class="">phone</th>
         <th class="">subject</th>
-        <th class="">schoolClasses</th>
-        <th class="">user Id</th>
+        <th class="">schoolClassesId</th>
+        <th class="">schoolClassesTitle</th>
+        <th class="">userId</th>
         <th class="">Update</th>
         <th class="">Delete</th>
     </tr>
@@ -52,25 +53,27 @@ Veikia
     <c:forEach var="teach" items="${teachersList}" varStatus="theCount">
         <tr>
                 <%--<label id="surname${theCount.index}" type="text" name="surname" value="${teach.getSurname()}" hidden/>--%>
-            <td style="text-align:center;" class=""> ${teach.getTeacherId()} </td>
-            <td style="text-align:center;" class=""> ${teach.getName()} </td>
-            <td style="text-align:center;" class=""> ${teach.getSurname()} </td>
-            <td style="text-align:center;" class=""> ${teach.getPhone()} </td>
+            <td style="text-align:center;" class="">${teach.getTeacherId()}</td>
+            <td style="text-align:center;" class="">${teach.getName()}</td>
+            <td style="text-align:center;" class="">${teach.getSurname()}</td>
+            <td style="text-align:center;" class="">${teach.getPhone()}</td>
             <td style="text-align:center;" class="">
                 <c:forEach var="subj" items="${teach.getSubject()}" varStatus="subjCount">
                     <p style="text-align:center;" class="">
                         <input type="number" value="${subj.getSubjectId()}" hidden />
-                        <label style="text-align:center;" class=""> ${subj.getSubjectName()} </label>
+                        <label style="text-align:center;" class="">${subj.getSubjectName()}</label>
                     </p>
                 </c:forEach>
             </td>
-            <td style="text-align:center;" class=""> ${teach.getSchoolClasses().getTitle()} </td>
-            <td style="text-align:center;" class=""> ${teach.getUser().getUserId()} </td>
+            <td style="text-align:center;" class="">${teach.getSchoolClasses().getSchoolClassesId()}</td>
+            <td style="text-align:center;" class="">${teach.getSchoolClasses().getTitle()}</td>
+            <td style="text-align:center;" class="">${teach.getUser().getUserId()}</td>
             <td style="text-align:center;" class="">
                 <button class="btn btn-success" data-toggle="modal" data-target="#myModal" contenteditable="false">Update</button>
             </td>
             <td style="text-align:center;" class="">
-                <button id="delete${theCount.index}" onclick="deleteTeacher(${theCount.index})">Delete</button>
+                <button class="btn btn-success" data-toggle="modal" data-target="#myModal"
+                        id="delete${theCount.index}" onclick="deleteTeacher(${theCount.index})">Delete</button>
             </td>
         </tr>
     </c:forEach>
@@ -138,39 +141,12 @@ Veikia
     });
 </script>
 <script>
-    function updateTeacher(val) {
-        alert(val);
-
-        private List<subject> subject;
-        private SchoolClasses schoolClasses;
-        private Users user;
-
-        var dataToSend = {
-            name: $('#surname').val(),
-            surname: $('#parentinfo').val(),
-            phone: $('#email').val(),
-            subject: {
-                name: $('#namecard').val(),
-                expiredDate: $('#expiredDatecard').val(),
-                status: $('#statuscard').prop('checked')
-            }
-        };
-        $.ajax({
-            type: "POST",
-            url: "/addchild?teacher_id=" + $('#teacher_id').val(),
-            contentType: "application/json; charset=utf-8",
-            data: JSON.stringify(dataToSend),
-            dataType: "json"
-        });
-        modifSchoolchild();
-    }
-</script>
-<script>
     $(".btn[data-target='#myModal']").click(function() {
         // Row Column headings
         var columnHeadings = $("thead th").map(function() {
             return $(this).text();
         }).get();
+        console.log(columnHeadings);
         columnHeadings.pop();
         // Row Column Values
         var columnValues = $(this).parent().siblings().map(function() {
@@ -180,7 +156,7 @@ Veikia
 //        var subjectSize = $("td p").length;
 //        $("td p")[0]
         // Subject lists Titles
-        var subjectTitles = $(this).parent().siblings(4).children("p").map(function() {
+        var subjectTitles = $(this).parent().siblings(4).children("p").children("label").map(function() {
             return $(this).text();
         }).get();
 //        var subjectSize = $(this).parent().siblings(4).children("p").length;
@@ -191,8 +167,9 @@ Veikia
         });
         console.log(subjectIds);
         var modalBody = $('<div id="modalContent"></div>');
-        var modalForm = $('<form role="form" name="modalForm" action="putYourPHPActionHere.php" method="post"></form>');
+        var modalForm = $('<form role="form" name="modalForm" action="saveAndFlushTeacher" method="post"></form>');
         $.each(columnHeadings, function(i, columnHeader) {
+            console.log(columnHeader);
             var formGroup = $('<div class="form-group"></div>');
             if(columnHeader == "subject"){
 //                var columnSubjects = $("tbody tr td p").map(function() {
@@ -204,12 +181,12 @@ Veikia
                 var subjectGroup = $('<div class="subject-group"></div>').appendTo(formGroup);
                 subjectGroup.append('<label for="'+columnHeader+'">'+columnHeader+'</label>');
                 $.each(subjectTitles, function (i, columnSubject) {
-                    subjectGroup.append('<input class="form-control" name="'+columnHeader+i+'" id="'+columnHeader+i+'" value="'+subjectTitles[i]+'" />');
-                    subjectGroup.append('<input class="form-control" name="subjectId'+ subjectIds[i]+'" id="subjectId'+subjectIds[i]+'" value="'+subjectIds[i]+'" />');
+                    subjectGroup.append('<input class="form-control" name="subjectName" id="'+columnHeader+i+'" value="'+subjectTitles[i]+'" />');
+                    subjectGroup.append('<input class="form-control" name="subjectId" id="subjectId'+subjectIds[i]+'" value="'+subjectIds[i]+'" />');
                 });
-            }else {
-                formGroup.append('<label for="' + columnHeader + '">' + columnHeader + '</label>');
-                formGroup.append('<input class="form-control" name="' + columnHeader + i + '" id="' + columnHeader + i + '" value="' + columnValues[i] + '" />');
+            } else {
+                formGroup.append('<label for="' + columnHeader + i + '">' + columnHeader + '</label>');
+                formGroup.append('<input class="form-control" name="' + columnHeader + '" id="' + columnHeader + i + '" value="' + columnValues[i] + '" />');
             }
             modalForm.append(formGroup);
         });
@@ -221,55 +198,3 @@ Veikia
     });
 </script>
 </html>
-    <%--<table id="myTable">&ndash;%&gt;--%>
-    <%--<tr>--%>
-    <%--<th>teacherId</th>--%>
-    <%--<th>name</th>--%>
-    <%--<th>surname</th>--%>
-    <%--<th>phone</th>--%>
-    <%--<th>subject</th>--%>
-    <%--<th>schoolClasses</th>--%>
-    <%--<th>user Id</th>--%>
-    <%--<th>Update</th>--%>
-    <%--<th>Delete</th>--%>
-    <%--</tr>--%>
-    <%--<c:forEach var="teach" items="${teachersList}" varStatus="theCount">--%>
-    <%--<tr>--%>
-    <%--&lt;%&ndash;<label id="surname${theCount.index}" type="text" name="surname" value="${teach.getSurname()}" hidden/>&ndash;%&gt;--%>
-    <%--<td>--%>
-    <%--<label id="idTeacherId${theCount.index}"> ${teach.getTeacherId()} </label>--%>
-    <%--</td>--%>
-    <%--<td>--%>
-    <%--<label id="idName${theCount.index}"> ${teach.getName()} </label>--%>
-    <%--</td>--%>
-    <%--<td>--%>
-    <%--<label id="idSurname${theCount.index}"> ${teach.getSurname()} </label>--%>
-    <%--</td>--%>
-    <%--<td>--%>
-    <%--<label id="idPhone${theCount.index}"> ${teach.getPhone()} </label>--%>
-    <%--</td>--%>
-    <%--<td>--%>
-    <%--<c:forEach var="subj" items="${teach.getSubject()}" varStatus="subjCount">--%>
-    <%--&lt;%&ndash;${subj.getSubjectId()}&ndash;%&gt;--%>
-    <%--<label id="subjectId${theCount.index}And${subjCount.index}"> ${subj.getSubjectId()} </label><br>--%>
-    <%--<label id="subjectName${theCount.index}And${subjCount.index}"> ${subj.getSubjectName()} </label>--%>
-    <%--</c:forEach>--%>
-    <%--&lt;%&ndash;<label id="idSubject${theCount.index}" contenteditable="true"> ${teach.getSubject()} </label>&ndash;%&gt;--%>
-    <%--</td>--%>
-    <%--<td>--%>
-    <%--<label id="idSchoolClasses_Title${theCount.index}"> ${teach.getSchoolClasses().getTitle()} </label>--%>
-    <%--</td>--%>
-    <%--<td>--%>
-    <%--<label id="idUser_UserId${theCount.index}"> ${teach.getUser().getUserId()} </label>--%>
-    <%--</td>--%>
-    <%--<td>--%>
-    <%--&lt;%&ndash;onclick="updateTeacher('${teach.getSchoolClasses().getTitle()}')&ndash;%&gt;--%>
-    <%--<button id="update${theCount.index}" onclick="updateTeacher('${teach.getSubject()}')">Update</button>--%>
-    <%--</td>--%>
-    <%--<td>--%>
-    <%--<button id="delete${theCount.index}" onclick="deleteTeacher(${theCount.index})">Delete</button>--%>
-    <%--</td>--%>
-    <%--</tr>--%>
-    <%--</c:forEach>--%>
-    <%--</table>
-    <%----%>

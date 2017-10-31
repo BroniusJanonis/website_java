@@ -20,6 +20,7 @@ public class UserService implements IUserService{
     @Autowired
     BCryptPasswordEncoder bCryptPasswordEncoder;
 
+    @Override
     public void saveUser(Users userForm) {
         Roles role = new Roles();
         role.setRoleId(roleRep.findFirstByRoleId(1).getRoleId());
@@ -28,6 +29,12 @@ public class UserService implements IUserService{
         userForm.setRole(role);  // duok visus ir prisiskiriam i HashSet
         // kadangi jau @autowirine esamt UserRep, tai ten yra spring JPA implementuoti, kuris duoda savo metoda save()
         userRep.save(userForm);
+    }
+
+    @Override
+    public Users firstByUserId(int id) {
+        Users firstByUserId = userRep.findFirstByUserId(id);
+        return firstByUserId;
     }
 
 }

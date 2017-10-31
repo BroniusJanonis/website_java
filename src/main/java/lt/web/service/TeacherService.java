@@ -21,4 +21,14 @@ public class TeacherService implements ITeacherService{
         List<TeachersDTO> teachersDTOList = teachersServiceDTO.teacherDTOList(teachersList);
         return  teachersDTOList;
     }
+
+    @Override
+    public void saveAndFlushTeacher(Teachers teachers) {
+        teachersRep.saveAndFlush(teachers);
+    }
+
+    @Override
+    public void saveTeacher(Teachers teachers) {
+        teachersRep.save(teachers);
+    }
 }

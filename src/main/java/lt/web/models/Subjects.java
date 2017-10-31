@@ -12,6 +12,11 @@ public class Subjects {
     public Subjects() {
     }
 
+    public Subjects(int subjectId, String subjectName) {
+        this.subjectId = subjectId;
+        this.subjectName = subjectName;
+    }
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "SUBJECT_ID", unique = true, nullable = false)

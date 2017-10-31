@@ -8,5 +8,6 @@ import org.springframework.stereotype.Repository;
 public interface UserRep extends JpaRepository<Users, Long> {
     // pagal savo modeli per JpaRepository galim kurtis visa CRUD'a
     Users findFirstByEmail(String email);
+    Users findFirstByUserId(int id);
 
 }

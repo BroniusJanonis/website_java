@@ -17,6 +17,33 @@ public class Teachers {
     public Teachers() {
     }
 
+    public Teachers(int teacherId, String name, String surname, String phone, List<Subjects> subject) {
+        this.teacherId = teacherId;
+        this.name = name;
+        this.surname = surname;
+        this.phone = phone;
+        this.subject = subject;
+    }
+
+    public Teachers(int teacherId, String name, String surname, String phone, List<Subjects> subject, Users user) {
+        this.teacherId = teacherId;
+        this.name = name;
+        this.surname = surname;
+        this.phone = phone;
+        this.subject = subject;
+        this.user = user;
+    }
+
+    public Teachers(int teacherId, String name, String surname, String phone, List<Subjects> subject, SchoolClasses schoolClasses, Users user) {
+        this.teacherId = teacherId;
+        this.name = name;
+        this.surname = surname;
+        this.phone = phone;
+        this.subject = subject;
+        this.schoolClasses = schoolClasses;
+        this.user = user;
+    }
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "TEACHER_ID", unique = true, nullable = false)

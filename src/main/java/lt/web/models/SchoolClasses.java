@@ -15,6 +15,11 @@ public class SchoolClasses {
     public SchoolClasses() {
     }
 
+    public SchoolClasses(int schoolClassesId, String title) {
+        this.schoolClassesId = schoolClassesId;
+        this.title = title;
+    }
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "SCHOOL_CLASSES_ID", unique = true, nullable = false)

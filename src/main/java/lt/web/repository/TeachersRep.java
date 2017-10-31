@@ -10,4 +10,5 @@ import java.util.List;
 public interface TeachersRep extends JpaRepository<Teachers, Long>{
 
     List<Teachers> findAll();
+
 }
