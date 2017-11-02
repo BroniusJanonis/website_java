@@ -7,7 +7,6 @@ import java.util.List;
 @Table(name = "webschoolclasses")
 public class SchoolClasses {
     private int schoolClassesId;
-    private String subject;
     private String title;
     private List<Children> childrenList;
     private Teachers teacher;
@@ -31,14 +30,6 @@ public class SchoolClasses {
         this.schoolClassesId = schoolClassesId;
     }
 
-    @Column(name = "SUBJECT", unique = true, nullable = false, length = 64)
-    public String getSubject() {
-        return subject;
-    }
-
-    public void setSubject(String subject) {
-        this.subject = subject;
-    }
 
     @Column(name = "TITLE", unique = true, nullable = false, length = 64)
     public String getTitle() {

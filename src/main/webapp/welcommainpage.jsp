@@ -1,3 +1,5 @@
+<%@ page import="lt.web.models.Subjects" %>
+<%@ page import="java.util.Set" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
@@ -30,21 +32,22 @@ Veikia
     </h2>
 </c:if>
 
-<input  class="border border-primary" type="text" id="myInput" onkeyup="searchBy()" placeholder="Ieškoti pagal ..." >
+<input  class="border border-primary" type="text" id="myInput" onkeyup="searchBy()" placeholder="Ieškoti pagal varda..." >
 <br>
- ${teachersList.get(0).getName()}
-
+${subjectSet.iterator().next().getSubjectId()}
+ <%--${teachersList.get(0).getName()}--%>
+<button class="btn btn-success addTeacher" data-toggle="modal" data-target="#myModal" onclick="addTeacher('${subjectSet}')">Add Teacher</button>
 <table class="table table-bordered table-striped" id="myModalTable">
     <thead>
     <tr>
-        <th class="">teacherId</th>
+        <th class="" hidden>teacherId</th>
         <th class="">name</th>
         <th class="">surname</th>
         <th class="">phone</th>
         <th class="">subject</th>
-        <th class="">schoolClassesId</th>
+        <th class="" hidden>schoolClassesId</th>
         <th class="">schoolClassesTitle</th>
-        <th class="">userId</th>
+        <th class="" hidden>userId</th>
         <th class="">Update</th>
         <th class="">Delete</th>
     </tr>
@@ -53,7 +56,7 @@ Veikia
     <c:forEach var="teach" items="${teachersList}" varStatus="theCount">
         <tr>
                 <%--<label id="surname${theCount.index}" type="text" name="surname" value="${teach.getSurname()}" hidden/>--%>
-            <td style="text-align:center;" class="">${teach.getTeacherId()}</td>
+            <td style="text-align:center;" class="" hidden>${teach.getTeacherId()}</td>
             <td style="text-align:center;" class="">${teach.getName()}</td>
             <td style="text-align:center;" class="">${teach.getSurname()}</td>
             <td style="text-align:center;" class="">${teach.getPhone()}</td>
@@ -65,20 +68,20 @@ Veikia
                     </p>
                 </c:forEach>
             </td>
-            <td style="text-align:center;" class="">${teach.getSchoolClasses().getSchoolClassesId()}</td>
+            <td style="text-align:center;" class="" hidden>${teach.getSchoolClasses().getSchoolClassesId()}</td>
             <td style="text-align:center;" class="">${teach.getSchoolClasses().getTitle()}</td>
-            <td style="text-align:center;" class="">${teach.getUser().getUserId()}</td>
+            <td style="text-align:center;" class="" hidden>${teach.getUser().getUserId()}</td>
             <td style="text-align:center;" class="">
-                <button class="btn btn-success" data-toggle="modal" data-target="#myModal" contenteditable="false">Update</button>
+                <button class="btn btn-success updateTeacher" data-toggle="modal" data-target="#myModal" contenteditable="false">Update</button>
             </td>
             <td style="text-align:center;" class="">
-                <button class="btn btn-success" data-toggle="modal" data-target="#myModal"
-                        id="delete${theCount.index}" onclick="deleteTeacher(${theCount.index})">Delete</button>
+                <button class="btn btn-success" id="delete${theCount.index}" onclick="deleteTeacher(${teach.getTeacherId()})">Delete</button>
             </td>
         </tr>
     </c:forEach>
     </tbody>
 </table>
+<%--Update Modal--%>
 <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content"></div>
@@ -89,11 +92,9 @@ Veikia
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
+                <h4 class="modal-title" id="myModalLabel">Teacher</h4>
                 <button type="button" class="close" data-dismiss="modal"> <span aria-hidden="true" class="">×   </span><span class="sr-only">Close</span>
-
                 </button>
-                <h4 class="modal-title" id="myModalLabel">Modal title</h4>
-
             </div>
             <div class="modal-body"></div>
             <div class="modal-footer">
@@ -103,7 +104,6 @@ Veikia
         </div>
     </div>
 </div>
-
 
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
@@ -120,7 +120,7 @@ Veikia
         table = document.getElementById("myModalTable");
         tr = table.getElementsByTagName("tr");
         for (i = 0; i < tr.length; i++) {
-            td = tr[i].getElementsByTagName("td")[0];
+            td = tr[i].getElementsByTagName("td")[1];
             if (td) {
                 if (td.innerHTML.toUpperCase().indexOf(filter) > -1) {
                     tr[i].style.display = "";
@@ -141,12 +141,12 @@ Veikia
     });
 </script>
 <script>
-    $(".btn[data-target='#myModal']").click(function() {
+    $(".updateTeacher[data-target='#myModal']").click(function() {
         // Row Column headings
         var columnHeadings = $("thead th").map(function() {
             return $(this).text();
         }).get();
-        console.log(columnHeadings);
+//        console.log(columnHeadings);
         columnHeadings.pop();
         // Row Column Values
         var columnValues = $(this).parent().siblings().map(function() {
@@ -165,13 +165,13 @@ Veikia
         var subjectIds = $(this).parent().siblings(4).children("p").children("input").map(function () {
             return $(this).val();
         });
-        console.log(subjectIds);
+//        console.log(subjectIds);
         var modalBody = $('<div id="modalContent"></div>');
         var modalForm = $('<form role="form" name="modalForm" action="saveAndFlushTeacher" method="post"></form>');
         $.each(columnHeadings, function(i, columnHeader) {
-            console.log(columnHeader);
+//            console.log(columnHeader);
             var formGroup = $('<div class="form-group"></div>');
-            if(columnHeader == "subject"){
+            if (columnHeader == "subject") {
 //                var columnSubjects = $("tbody tr td p").map(function() {
 //                    return $(this).text();
 //                }).get();
@@ -179,14 +179,18 @@ Veikia
 //                    return $(this).text();
 //                }).get();
                 var subjectGroup = $('<div class="subject-group"></div>').appendTo(formGroup);
-                subjectGroup.append('<label for="'+columnHeader+'">'+columnHeader+'</label>');
+                subjectGroup.append('<label>' + columnHeader + '</label>');
                 $.each(subjectTitles, function (i, columnSubject) {
-                    subjectGroup.append('<input class="form-control" name="subjectName" id="'+columnHeader+i+'" value="'+subjectTitles[i]+'" />');
-                    subjectGroup.append('<input class="form-control" name="subjectId" id="subjectId'+subjectIds[i]+'" value="'+subjectIds[i]+'" />');
+                    subjectGroup.append('<input class="form-control" name="subjectName" value="' + subjectTitles[i] + '" />');
+                    subjectGroup.append('<input class="form-control" name="subjectId" value="' + subjectIds[i] + '" hidden />');
                 });
+            } else if(columnHeader == "Update" || columnHeader == "Delete"){
+                return;
+            } else if (columnHeader == "teacherId" || columnHeader == "schoolClassesId" || columnHeader == "userId" ){
+                formGroup.append('<input class="form-control" name="' + columnHeader + '" value="' + columnValues[i] + '" hidden/>');
             } else {
-                formGroup.append('<label for="' + columnHeader + i + '">' + columnHeader + '</label>');
-                formGroup.append('<input class="form-control" name="' + columnHeader + '" id="' + columnHeader + i + '" value="' + columnValues[i] + '" />');
+                formGroup.append('<label>' + columnHeader + '</label>');
+                formGroup.append('<input class="form-control" name="' + columnHeader + '" value="' + columnValues[i] + '" />');
             }
             modalForm.append(formGroup);
         });
@@ -196,5 +200,44 @@ Veikia
     $('.modal-footer .btn-primary').click(function() {
         $('form[name="modalForm"]').submit();
     });
+</script>
+<script>
+    function addTeacher(subjectSet) {
+        var setSize = "${subjectSet.size()}";
+        var setSubject = "${subjectSet.iterator().next().getSubjectName()}";
+        console.log(setSubject + " " + setSize);
+    $(".addTeacher[data-target='#myModal']").click(function() {
+        $('.modal-title').innerText = "Add";
+        var modalBody = $('<div id="modalAddContent"></div>');
+        var modalForm = $('<form role="form" name="modalForm" action="addTeacher" method="post"></form>');
+        var formGroup = $('<div class="form-group"></div>');
+        var subjectGroup = $('<div class="subject-group"></div>').appendTo(formGroup);
+        formGroup.append('<label> Name </label>');
+        formGroup.append('<input class="form-control" name="name"/>');
+        formGroup.append('<label> Surname </label>');
+        formGroup.append('<input class="form-control" name="surname"/>');
+        formGroup.append('<label> Phone </label>');
+        formGroup.append('<input class="form-control" name="phone"/>');
+        formGroup.append('<label> Subject </label>');
+        formGroup.append('<input class="form-control" name="subject"/>');
+        formGroup.append('<label> SchoolClassesTitle </label>');
+        formGroup.append('<input class="form-control" name="schoolClassesTitle"/>');
+        for(i = 0; i < setSize; i++){
+//            subjectGroup.append('<input class="form-control" name="subjectId" value="' + columnSubject + '" hidden />');
+            subjectGroup.append('<input class="form-control" name="subjectName" value="' + setSubject + '" />');
+        };
+        modalForm.append(formGroup);
+        modalBody.append(modalForm);
+        $('.modal-body').html(modalBody);
+    });
+    $('.modal-footer .btn-primary').click(function() {
+        $('form[name="modalForm"]').submit();
+    });
+    }
+</script>
+<script>
+    function deleteTeacher(val) {
+        console.log(val);
+    }
 </script>
 </html>

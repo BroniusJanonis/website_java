@@ -4,7 +4,6 @@ import java.util.List;
 
 public class SchoolClassesDTO {
     private int schoolClassesId;
-    private String subject;
     private String title;
     private List<ChildrenDTO> childrenList;
     private TeachersDTO teacher;
@@ -12,9 +11,9 @@ public class SchoolClassesDTO {
     public SchoolClassesDTO() {
     }
 
-    public SchoolClassesDTO(int schoolClassesId, String subject, String title, List<ChildrenDTO> childrenList) {
+    public SchoolClassesDTO(int schoolClassesId, String title, List<ChildrenDTO> childrenList) {
         this.schoolClassesId = schoolClassesId;
-        this.subject = subject;
+//        this.subject = subject;
         this.title = title;
         this.childrenList = childrenList;
     }
@@ -25,14 +24,6 @@ public class SchoolClassesDTO {
 
     public void setSchoolClassesId(int schoolClassesId) {
         this.schoolClassesId = schoolClassesId;
-    }
-
-    public String getSubject() {
-        return subject;
-    }
-
-    public void setSubject(String subject) {
-        this.subject = subject;
     }
 
     public String getTitle() {

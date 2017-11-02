@@ -1,6 +1,9 @@
 package lt.web.controler;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import lt.web.modelDTO.TeachersDTO;
+import lt.web.models.Subjects;
 import lt.web.models.Teachers;
 import lt.web.models.Users;
 import lt.web.service.*;
@@ -14,8 +17,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 @Controller
 @ComponentScan({"lt.web"})
@@ -29,6 +31,8 @@ public class UserController {
     private ISecurityService securityService;
     @Autowired
     private ITeacherService teacherService;
+    @Autowired
+    ISubjectService subjectService;
 
     @RequestMapping(value = "/register", method = RequestMethod.GET)
     public String register(Model model){
@@ -58,9 +62,17 @@ public class UserController {
 
     // ir /welcomemainpage ir / (tuscias) numeta i welcompage
     @RequestMapping(value = "/welcomemainpage", method = RequestMethod.GET)
-    public String welcome(Model model){
+    public String welcome(Model model) throws JsonProcessingException {
         List<TeachersDTO> allTeachers = teacherService.getAllTeachers();
         model.addAttribute("teachersList", allTeachers);
+
+        List<Subjects> subjectsList = subjectService.findAll();
+        Set<Subjects> subjectSet = new HashSet<>();
+        subjectsList.stream().forEach(s -> {
+            subjectSet.add(new Subjects(s.getSubjectId(), s.getSubjectName()));
+        });
+        model.addAttribute("subjectSet", subjectSet);
+        subjectSet.iterator().next().getSubjectName();
         return "welcommainpage";
     }
 

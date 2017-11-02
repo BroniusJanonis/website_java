@@ -22,7 +22,7 @@ public class SchoolClassesServiceDTO {
 
         List<ChildrenDTO> childrenListDTO = childrenServiceDTO.convertChildrenDTO(schoolClass.getChildrenList());
 
-        SchoolClassesDTO schoolClassesDTO = new SchoolClassesDTO(schoolClass.getSchoolClassesId(), schoolClass.getSubject(), schoolClass.getTitle(), childrenListDTO);
+        SchoolClassesDTO schoolClassesDTO = new SchoolClassesDTO(schoolClass.getSchoolClassesId(), schoolClass.getTitle(), childrenListDTO);
 
         return schoolClassesDTO;
     }
