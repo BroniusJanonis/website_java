@@ -14,9 +14,18 @@ public class SchoolClasses {
     public SchoolClasses() {
     }
 
+    public SchoolClasses(String title) {
+        this.title = title;
+    }
+
     public SchoolClasses(int schoolClassesId, String title) {
         this.schoolClassesId = schoolClassesId;
         this.title = title;
+    }
+
+    public SchoolClasses(String title, Teachers teacher) {
+        this.title = title;
+        this.teacher = teacher;
     }
 
     @Id
@@ -41,7 +50,7 @@ public class SchoolClasses {
     }
 
     // "schoolClasses" is seteriu turi sutapt
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "schoolClasses")
+    @OneToMany(cascade = CascadeType.REMOVE, fetch = FetchType.LAZY, mappedBy = "schoolClasses")
     public List<Children> getChildrenList() {
         return childrenList;
     }
@@ -50,7 +59,7 @@ public class SchoolClasses {
         this.childrenList = childrenList;
     }
 
-    @OneToOne(cascade = CascadeType.ALL)
+    @OneToOne(cascade = CascadeType.REMOVE)
     @JoinColumn(name = "TEACHER_ID")
     public Teachers getTeacher() {
         return teacher;

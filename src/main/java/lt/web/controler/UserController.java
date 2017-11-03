@@ -57,23 +57,7 @@ public class UserController {
         userService.saveUser(userForm);
         // tikrina sauguma
         securityService.login(userForm.getEmail(), userForm.getPassword_auth());
-        return "redirect:/welcomemainpage";
-    }
-
-    // ir /welcomemainpage ir / (tuscias) numeta i welcompage
-    @RequestMapping(value = "/welcomemainpage", method = RequestMethod.GET)
-    public String welcome(Model model) throws JsonProcessingException {
-        List<TeachersDTO> allTeachers = teacherService.getAllTeachers();
-        model.addAttribute("teachersList", allTeachers);
-
-        List<Subjects> subjectsList = subjectService.findAll();
-        Set<Subjects> subjectSet = new HashSet<>();
-        subjectsList.stream().forEach(s -> {
-            subjectSet.add(new Subjects(s.getSubjectId(), s.getSubjectName()));
-        });
-        model.addAttribute("subjectSet", subjectSet);
-        subjectSet.iterator().next().getSubjectName();
-        return "welcommainpage";
+        return "redirect:/teacherMain";
     }
 
     // cia pirma jungiasi per controleri "login". get'a

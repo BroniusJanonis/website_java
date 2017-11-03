@@ -8,6 +8,7 @@ import java.util.List;
 
 public interface ITeacherService {
     List<TeachersDTO> getAllTeachers();
-    void saveAndFlushTeacher(Teachers teachers);
-    void saveTeacher(Teachers teachers);
+    Teachers saveAndFlushTeacher(Teachers teachers);
+    Teachers saveTeacher(Teachers teachers);
+    void deleteTeacher(int teacherId);
 }

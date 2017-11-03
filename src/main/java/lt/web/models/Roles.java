@@ -13,6 +13,10 @@ public class Roles {
     public Roles() {
     }
 
+    public Roles(String roleTitle) {
+        this.roleTitle = roleTitle;
+    }
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "ROLE_ID", unique = true, nullable = false)

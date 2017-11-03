@@ -11,6 +11,11 @@ public class SchoolClassesDTO {
     public SchoolClassesDTO() {
     }
 
+    public SchoolClassesDTO(int schoolClassesId, String title) {
+        this.schoolClassesId = schoolClassesId;
+        this.title = title;
+    }
+
     public SchoolClassesDTO(int schoolClassesId, String title, List<ChildrenDTO> childrenList) {
         this.schoolClassesId = schoolClassesId;
 //        this.subject = subject;

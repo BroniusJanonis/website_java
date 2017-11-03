@@ -8,7 +8,7 @@
 <c:set var="path" value="${pageContext.request.contextPath}"/>
 <html>
 <head>
-    <title>Welcome window</title>
+    <title>Teacher window</title>
     <%--randam, kur yra registracijos langas--%>
     <%--<link rel="stylesheet" href="${path}/resources/css/style.css">--%>
     <%--<link rel="stylesheet" href="${path}/resources/css/bootstrap.min.css">--%>
@@ -16,90 +16,98 @@
 
 </head>
 <body>
+<div class="container">
+    <div class="row">
+        <div class="col-xl-2">
+            <%@include file="headerMain.jsp"%>
+        </div>
+        <div class="col-xl-10">
+            Veikia
+            <c:if test="${pageContext.request.userPrincipal.name!=null}">
+                <%--/logout cia yra Spring'o logout metodas, kuris atsakingas uz token sesijos atsijungima.
+                Pirma siunciam i WebSecurityConfiguration > "/logout" ir ten atjungiam bei on success nukreipia i mvc3 controlerio "/" langa, kuris pas mus yra irgi logino langas--%>
+                <form id="logoutForm" method="post" action="${path}/logout">
+                        <%--perduodam tokenus--%>
+                    <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
 
-Veikia
-<c:if test="${pageContext.request.userPrincipal.name!=null}">
-    <%--/logout cia yra Spring'o logout metodas, kuris atsakingas uz token sesijos atsijungima.
-    Pirma siunciam i WebSecurityConfiguration > "/logout" ir ten atjungiam bei on success nukreipia i mvc3 controlerio "/" langa, kuris pas mus yra irgi logino langas--%>
-    <form id="logoutForm" method="post" action="${path}/logout">
-        <%--perduodam tokenus--%>
-        <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
+                </form>
+                <%--cia pateikiam vartotoja ir onclick padarom, jog atjungtumem vartotoja--%>
+                <h2>Labas vartotojau vardu: ${pageContext.request.userPrincipal.name} |->
+                    <a onclick="document.forms['logoutForm'].submit()">Logout</a>
+                </h2>
+            </c:if>
 
-    </form>
-    <%--cia pateikiam vartotoja ir onclick padarom, jog atjungtumem vartotoja--%>
-    <h2>Labas vartotojau vardu: ${pageContext.request.userPrincipal.name} |->
-        <a onclick="document.forms['logoutForm'].submit()">Logout</a>
-    </h2>
-</c:if>
-
-<input  class="border border-primary" type="text" id="myInput" onkeyup="searchBy()" placeholder="Ieškoti pagal varda..." >
-<br>
-${subjectSet.iterator().next().getSubjectId()}
- <%--${teachersList.get(0).getName()}--%>
-<button class="btn btn-success addTeacher" data-toggle="modal" data-target="#myModal" onclick="addTeacher('${subjectSet}')">Add Teacher</button>
-<table class="table table-bordered table-striped" id="myModalTable">
-    <thead>
-    <tr>
-        <th class="" hidden>teacherId</th>
-        <th class="">name</th>
-        <th class="">surname</th>
-        <th class="">phone</th>
-        <th class="">subject</th>
-        <th class="" hidden>schoolClassesId</th>
-        <th class="">schoolClassesTitle</th>
-        <th class="" hidden>userId</th>
-        <th class="">Update</th>
-        <th class="">Delete</th>
-    </tr>
-    </thead>
-    <tbody>
-    <c:forEach var="teach" items="${teachersList}" varStatus="theCount">
-        <tr>
-                <%--<label id="surname${theCount.index}" type="text" name="surname" value="${teach.getSurname()}" hidden/>--%>
-            <td style="text-align:center;" class="" hidden>${teach.getTeacherId()}</td>
-            <td style="text-align:center;" class="">${teach.getName()}</td>
-            <td style="text-align:center;" class="">${teach.getSurname()}</td>
-            <td style="text-align:center;" class="">${teach.getPhone()}</td>
-            <td style="text-align:center;" class="">
-                <c:forEach var="subj" items="${teach.getSubject()}" varStatus="subjCount">
-                    <p style="text-align:center;" class="">
-                        <input type="number" value="${subj.getSubjectId()}" hidden />
-                        <label style="text-align:center;" class="">${subj.getSubjectName()}</label>
-                    </p>
+            <input  class="border border-primary" type="text" id="myInput" onkeyup="searchBy()" placeholder="Ieškoti pagal varda..." >
+            <br>
+            <%--${subjectSet.iterator().next().getSubjectId()}--%>
+            <%--${teachersList.get(0).getName()}--%>
+            <button class="btn btn-success addTeacher" data-toggle="modal" data-target="#myModal" onclick="addTeacher('${subjectSet}')">Add Teacher</button>
+            <table class="table table-bordered table-striped" id="myModalTable">
+                <thead>
+                <tr>
+                    <th class="" hidden>teacherId</th>
+                    <th class="">name</th>
+                    <th class="">surname</th>
+                    <th class="">phone</th>
+                    <th class="">subject</th>
+                    <th class="" hidden>schoolClassesId</th>
+                    <th class="">schoolClassesTitle</th>
+                    <th class="" hidden>userId</th>
+                    <th class="">Update</th>
+                    <th class="">Delete</th>
+                </tr>
+                </thead>
+                <tbody>
+                <c:forEach var="teach" items="${teachersList}" varStatus="theCount">
+                    <tr>
+                            <%--<label id="surname${theCount.index}" type="text" name="surname" value="${teach.getSurname()}" hidden/>--%>
+                        <td style="text-align:center;" class="" hidden>${teach.getTeacherId()}</td>
+                        <td style="text-align:center;" class="">${teach.getName()}</td>
+                        <td style="text-align:center;" class="">${teach.getSurname()}</td>
+                        <td style="text-align:center;" class="">${teach.getPhone()}</td>
+                        <td style="text-align:center;" class="">
+                            <c:forEach var="subj" items="${teach.getSubject()}" varStatus="subjCount">
+                                <p style="text-align:center;" class="">
+                                    <input type="number" value="${subj.getSubjectId()}" hidden />
+                                    <label style="text-align:center;" class="">${subj.getSubjectName()}</label>
+                                </p>
+                            </c:forEach>
+                        </td>
+                        <td style="text-align:center;" class="" hidden>${teach.getSchoolClasses().getSchoolClassesId()}</td>
+                        <td style="text-align:center;" class="">${teach.getSchoolClasses().getTitle()}</td>
+                        <td style="text-align:center;" class="" hidden>${teach.getUser().getUserId()}</td>
+                        <td style="text-align:center;" class="">
+                            <button class="btn btn-success updateTeacher" data-toggle="modal" data-target="#myModal" contenteditable="false">Update</button>
+                        </td>
+                        <td style="text-align:center;" class="">
+                            <button class="btn btn-success" id="delete${theCount.index}" onclick="deleteTeacher(${teach.getTeacherId()})">Delete</button>
+                        </td>
+                    </tr>
                 </c:forEach>
-            </td>
-            <td style="text-align:center;" class="" hidden>${teach.getSchoolClasses().getSchoolClassesId()}</td>
-            <td style="text-align:center;" class="">${teach.getSchoolClasses().getTitle()}</td>
-            <td style="text-align:center;" class="" hidden>${teach.getUser().getUserId()}</td>
-            <td style="text-align:center;" class="">
-                <button class="btn btn-success updateTeacher" data-toggle="modal" data-target="#myModal" contenteditable="false">Update</button>
-            </td>
-            <td style="text-align:center;" class="">
-                <button class="btn btn-success" id="delete${theCount.index}" onclick="deleteTeacher(${teach.getTeacherId()})">Delete</button>
-            </td>
-        </tr>
-    </c:forEach>
-    </tbody>
-</table>
-<%--Update Modal--%>
-<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
-        <div class="modal-content"></div>
-    </div>
-    <div class="modal-dialog">
-        <div class="modal-content"></div>
-    </div>
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h4 class="modal-title" id="myModalLabel">Teacher</h4>
-                <button type="button" class="close" data-dismiss="modal"> <span aria-hidden="true" class="">×   </span><span class="sr-only">Close</span>
-                </button>
-            </div>
-            <div class="modal-body"></div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                <button type="button" class="btn btn-primary">Save changes</button>
+                </tbody>
+            </table>
+            <%--Update Modal--%>
+            <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content"></div>
+                </div>
+                <div class="modal-dialog">
+                    <div class="modal-content"></div>
+                </div>
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h4 class="modal-title" id="myModalLabel">Teacher</h4>
+                            <button type="button" class="close" data-dismiss="modal"> <span aria-hidden="true" class="">×   </span><span class="sr-only">Close</span>
+                            </button>
+                        </div>
+                        <div class="modal-body"></div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                            <button type="button" class="btn btn-primary">Save changes</button>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
@@ -109,8 +117,8 @@ ${subjectSet.iterator().next().getSubjectId()}
 <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.3/umd/popper.min.js" integrity="sha384-vFJXuSJphROIrBnz7yo7oB41mKfc8JzQZiCq4NCceLEaO4IHwicKwpJf9c9IpFgh" crossorigin="anonymous"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/js/bootstrap.min.js" integrity="sha384-alpBpkh1PFOepccYVYDB4do5UnbKysX5WZXm3XxPqe5iKTfUKjNkCk9SaVuEZflJ" crossorigin="anonymous"></script>
-<%--<script type="text/javascript" src="${path}/resources/js/bootstrap.js"/>--%>
-<%--<script type="text/javascript" src="${path}/resources/js/jquery-3.2.1.js"/>--%>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+<%--<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>--%>
 </body>
 <script>
     function searchBy() {
@@ -203,41 +211,47 @@ ${subjectSet.iterator().next().getSubjectId()}
 </script>
 <script>
     function addTeacher(subjectSet) {
-        var setSize = "${subjectSet.size()}";
-        var setSubject = "${subjectSet.iterator().next().getSubjectName()}";
-        console.log(setSubject + " " + setSize);
-    $(".addTeacher[data-target='#myModal']").click(function() {
+        <%--var setSize = "${subjectSet.size()}";--%>
+        <%--var setSubject = "${subjectSet.iterator().next().getSubjectName()}";--%>
+        <%--console.log(setSubject + " " + setSize);--%>
         $('.modal-title').innerText = "Add";
         var modalBody = $('<div id="modalAddContent"></div>');
         var modalForm = $('<form role="form" name="modalForm" action="addTeacher" method="post"></form>');
         var formGroup = $('<div class="form-group"></div>');
-        var subjectGroup = $('<div class="subject-group"></div>').appendTo(formGroup);
         formGroup.append('<label> Name </label>');
         formGroup.append('<input class="form-control" name="name"/>');
         formGroup.append('<label> Surname </label>');
         formGroup.append('<input class="form-control" name="surname"/>');
         formGroup.append('<label> Phone </label>');
         formGroup.append('<input class="form-control" name="phone"/>');
-        formGroup.append('<label> Subject </label>');
-        formGroup.append('<input class="form-control" name="subject"/>');
         formGroup.append('<label> SchoolClassesTitle </label>');
         formGroup.append('<input class="form-control" name="schoolClassesTitle"/>');
-        for(i = 0; i < setSize; i++){
-//            subjectGroup.append('<input class="form-control" name="subjectId" value="' + columnSubject + '" hidden />');
-            subjectGroup.append('<input class="form-control" name="subjectName" value="' + setSubject + '" />');
-        };
+        formGroup.append('<label> Email </label>');
+        formGroup.append('<input class="form-control" name="email"/>');
+        formGroup.append('<label> Password </label>');
+        formGroup.append('<input class="form-control" name="password"/>');
+        formGroup.append('<label> Subject </label>');
+        var subjectGroup = $('<div class="subject-group"></div>').appendTo(formGroup);
+        <c:forEach var="subjectName" items="${subjectSet}">
+        <%--console.log("${subjectName}");--%>
+            subjectGroup.append('<input type="checkbox" class="form-control" name="subjectName" value="' + "${subjectName}" + '"/>' + "${subjectName}");
+        </c:forEach>
         modalForm.append(formGroup);
         modalBody.append(modalForm);
         $('.modal-body').html(modalBody);
-    });
+
     $('.modal-footer .btn-primary').click(function() {
         $('form[name="modalForm"]').submit();
     });
     }
 </script>
 <script>
-    function deleteTeacher(val) {
-        console.log(val);
+    function deleteTeacher(teacherId) {
+//        alert(val);
+        $.post("/deleteTeacher?teacherId="+teacherId, function (data) {
+//            alert(data);
+            location.reload(true);
+        });
     }
 </script>
 </html>

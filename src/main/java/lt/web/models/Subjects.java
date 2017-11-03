@@ -12,9 +12,18 @@ public class Subjects {
     public Subjects() {
     }
 
+    public Subjects(String subjectName) {
+        this.subjectName = subjectName;
+    }
+
     public Subjects(int subjectId, String subjectName) {
         this.subjectId = subjectId;
         this.subjectName = subjectName;
+    }
+
+    public Subjects(String subjectName, Teachers teacher) {
+        this.subjectName = subjectName;
+        this.teacher = teacher;
     }
 
     @Id
@@ -36,7 +45,7 @@ public class Subjects {
         this.subjectName = subjectName;
     }
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(cascade = CascadeType.REMOVE, fetch = FetchType.LAZY)
     @JoinColumn(name = "TEACHER_ID")
     public Teachers getTeacher() {
         return teacher;

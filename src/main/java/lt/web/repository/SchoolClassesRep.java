@@ -15,4 +15,11 @@ public interface SchoolClassesRep extends JpaRepository<SchoolClasses, Long>{
     @Transactional
 //    SQL pasitiktint pirma reikia > update webschoolclasses set title = 'title', teacher_id = 5 where school_classes_id = 3
     int setTitleById(@Param("schoolClassesTitle") String schoolClassesTitle, @Param("teacherId") int teacherId , @Param("schoolClassesId") int schoolClassesId);
+
+//    @Modifying
+//    @Query("delete from  SchoolClasses c where c.teacher.teacherId= :teacherId")
+//    @Transactional
+//    void deleteSchoolClassesByTeacher_TeacherId(@Param("teacherId") int teacherId);
+
+    void deleteSchoolClassesByTeacher_TeacherId(int teacherId);
 }

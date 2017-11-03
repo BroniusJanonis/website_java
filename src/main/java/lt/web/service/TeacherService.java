@@ -23,12 +23,17 @@ public class TeacherService implements ITeacherService{
     }
 
     @Override
-    public void saveAndFlushTeacher(Teachers teachers) {
-        teachersRep.saveAndFlush(teachers);
+    public Teachers saveAndFlushTeacher(Teachers teachers) {
+        return teachersRep.saveAndFlush(teachers);
     }
 
     @Override
-    public void saveTeacher(Teachers teachers) {
-        teachersRep.save(teachers);
+    public Teachers saveTeacher(Teachers teachers) {
+        return teachersRep.save(teachers);
+    }
+
+    @Override
+    public void deleteTeacher(int teacherId) {
+        teachersRep.delete(new Teachers(teacherId));
     }
 }

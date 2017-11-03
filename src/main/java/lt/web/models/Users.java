@@ -14,6 +14,17 @@ public class Users {
     public Users() {
     }
 
+    public Users(String email, String password) {
+        this.email = email;
+        this.password = password;
+    }
+
+    public Users(String email, String password, Roles role) {
+        this.email = email;
+        this.password = password;
+        this.role = role;
+    }
+
     public Users(int userId) {
         this.userId = userId;
     }
@@ -57,7 +68,7 @@ public class Users {
         this.password_auth = password_auth;
     }
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(cascade = CascadeType.REMOVE, fetch = FetchType.LAZY)
     @JoinColumn(name = "ROLE_ID")
     public Roles getRole() {
         return role;

@@ -17,12 +17,40 @@ public class Teachers {
     public Teachers() {
     }
 
+    public Teachers(int teacherId) {
+        this.teacherId = teacherId;
+    }
+
+    public Teachers(String name, String surname, String phone, Users user) {
+        this.name = name;
+        this.surname = surname;
+        this.phone = phone;
+        this.user = user;
+    }
+
+    public Teachers(String name, String surname, String phone, List<Subjects> subject, Users user) {
+        this.name = name;
+        this.surname = surname;
+        this.phone = phone;
+        this.subject = subject;
+        this.user = user;
+    }
+
     public Teachers(int teacherId, String name, String surname, String phone, List<Subjects> subject) {
         this.teacherId = teacherId;
         this.name = name;
         this.surname = surname;
         this.phone = phone;
         this.subject = subject;
+    }
+
+    public Teachers(String name, String surname, String phone, List<Subjects> subject, SchoolClasses schoolClasses, Users user) {
+        this.name = name;
+        this.surname = surname;
+        this.phone = phone;
+        this.subject = subject;
+        this.schoolClasses = schoolClasses;
+        this.user = user;
     }
 
     public Teachers(int teacherId, String name, String surname, String phone, List<Subjects> subject, Users user) {
@@ -82,7 +110,7 @@ public class Teachers {
         this.phone = phone;
     }
 
-   @OneToMany(fetch = FetchType.LAZY, mappedBy = "teacher")
+   @OneToMany(cascade = CascadeType.REMOVE, fetch = FetchType.LAZY, mappedBy = "teacher")
     public List<Subjects> getSubject() {
         return subject;
     }
@@ -91,7 +119,7 @@ public class Teachers {
         this.subject = subject;
     }
 
-    @OneToOne(mappedBy = "teacher")
+    @OneToOne(cascade = CascadeType.REMOVE, mappedBy = "teacher")
     public SchoolClasses getSchoolClasses() {
         return schoolClasses;
     }
@@ -100,7 +128,7 @@ public class Teachers {
         this.schoolClasses = schoolClasses;
     }
 
-    @OneToOne(cascade = CascadeType.ALL)
+    @OneToOne(cascade = CascadeType.REMOVE)
     @JoinColumn(name = "USER_ID")
     public Users getUser() {
         return user;

@@ -1,6 +1,8 @@
 package lt.web.service;
 
 import lt.web.models.Subjects;
+import lt.web.models.Teachers;
+import lt.web.models.Users;
 import lt.web.repository.SubjectsRep;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -22,5 +24,11 @@ public class SubjectService implements ISubjectService{
     public List<Subjects> findAll() {
         List<Subjects> subjectsList = subjectsRep.findAll();
         return subjectsList;
+    }
+
+    @Override
+    public Subjects save(String subjectName, Teachers teacher) {
+        Subjects subjects = subjectsRep.saveAndFlush(new Subjects(subjectName, teacher));
+        return subjects;
     }
 }

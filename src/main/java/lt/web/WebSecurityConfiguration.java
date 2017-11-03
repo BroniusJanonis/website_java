@@ -40,7 +40,7 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
                 // login page, cia spring security. Reiskia, kad, kai kreipsis i "/login", tai nukreips pirma i musu spring security autoracijos login
                 .formLogin().loginPage("/login").permitAll()
                 // cia nukreipiam, kai success (autorizacija patvirtinta per configureGlobal [apacioje apsirase])
-                .defaultSuccessUrl("/welcomemainpage")  //< testuojam
+                .defaultSuccessUrl("/teacherMain")  //< testuojam
                   // on failure galime numeski i bet kuri kita jsp, tarkim vel i login langa.
                   // Siuo atveju uzkomentuojam .failureUrl("/login"), nes mes apsirase controleryje, jog on, kai security login failure, tai permeta i musu controlerio "/login"
                   // , o ten mes sugriebiam is security  gauta error bei si persiunciam atgal controleryje per return i login.jsp langa, bet si karta jau su error (error apsirase esam webe)
