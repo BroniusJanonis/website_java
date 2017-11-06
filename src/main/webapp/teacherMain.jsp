@@ -22,7 +22,7 @@
             <%@include file="headerMain.jsp"%>
         </div>
         <div class="col-xl-10">
-            Veikia
+
             <c:if test="${pageContext.request.userPrincipal.name!=null}">
                 <%--/logout cia yra Spring'o logout metodas, kuris atsakingas uz token sesijos atsijungima.
                 Pirma siunciam i WebSecurityConfiguration > "/logout" ir ten atjungiam bei on success nukreipia i mvc3 controlerio "/" langa, kuris pas mus yra irgi logino langas--%>
@@ -58,35 +58,35 @@
                 </tr>
                 </thead>
                 <tbody>
-                <c:forEach var="teach" items="${teachersList}" varStatus="theCount">
+                <c:forEach var="child" items="${teachersList}" varStatus="theCount">
                     <tr>
                             <%--<label id="surname${theCount.index}" type="text" name="surname" value="${teach.getSurname()}" hidden/>--%>
-                        <td style="text-align:center;" class="" hidden>${teach.getTeacherId()}</td>
-                        <td style="text-align:center;" class="">${teach.getName()}</td>
-                        <td style="text-align:center;" class="">${teach.getSurname()}</td>
-                        <td style="text-align:center;" class="">${teach.getPhone()}</td>
+                        <td style="text-align:center;" class="" hidden>${child.getTeacherId()}</td>
+                        <td style="text-align:center;" class="">${child.getName()}</td>
+                        <td style="text-align:center;" class="">${child.getSurname()}</td>
+                        <td style="text-align:center;" class="">${child.getPhone()}</td>
                         <td style="text-align:center;" class="">
-                            <c:forEach var="subj" items="${teach.getSubject()}" varStatus="subjCount">
+                            <c:forEach var="subj" items="${child.getSubject()}" varStatus="subjCount">
                                 <p style="text-align:center;" class="">
                                     <input type="number" value="${subj.getSubjectId()}" hidden />
                                     <label style="text-align:center;" class="">${subj.getSubjectName()}</label>
                                 </p>
                             </c:forEach>
                         </td>
-                        <td style="text-align:center;" class="" hidden>${teach.getSchoolClasses().getSchoolClassesId()}</td>
-                        <td style="text-align:center;" class="">${teach.getSchoolClasses().getTitle()}</td>
-                        <td style="text-align:center;" class="" hidden>${teach.getUser().getUserId()}</td>
+                        <td style="text-align:center;" class="" hidden>${child.getSchoolClasses().getSchoolClassesId()}</td>
+                        <td style="text-align:center;" class="">${child.getSchoolClasses().getTitle()}</td>
+                        <td style="text-align:center;" class="" hidden>${child.getUser().getUserId()}</td>
                         <td style="text-align:center;" class="">
                             <button class="btn btn-success updateTeacher" data-toggle="modal" data-target="#myModal" contenteditable="false">Update</button>
                         </td>
                         <td style="text-align:center;" class="">
-                            <button class="btn btn-success" id="delete${theCount.index}" onclick="deleteTeacher(${teach.getTeacherId()})">Delete</button>
+                            <button class="btn btn-success" id="delete${theCount.index}" onclick="deleteTeacher(${child.getTeacherId()})">Delete</button>
                         </td>
                     </tr>
                 </c:forEach>
                 </tbody>
             </table>
-            <%--Update Modal--%>
+            <%--Add/ Update Modal--%>
             <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
                 <div class="modal-dialog">
                     <div class="modal-content"></div>

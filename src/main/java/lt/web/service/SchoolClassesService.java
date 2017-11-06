@@ -6,6 +6,8 @@ import lt.web.repository.SchoolClassesRep;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class SchoolClassesService implements ISchoolClassesService {
 
@@ -26,5 +28,10 @@ public class SchoolClassesService implements ISchoolClassesService {
     @Override
     public void deleteSchoolclassesByTeacherId(int id) {
         schoolClassesRep.deleteSchoolClassesByTeacher_TeacherId(id);
+    }
+
+    @Override
+    public List<SchoolClasses> getSchoolChlassesList() {
+        return schoolClassesRep.findAll();
     }
 }

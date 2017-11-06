@@ -14,6 +14,10 @@ public class SchoolClasses {
     public SchoolClasses() {
     }
 
+    public SchoolClasses(int schoolClassesId) {
+        this.schoolClassesId = schoolClassesId;
+    }
+
     public SchoolClasses(String title) {
         this.title = title;
     }

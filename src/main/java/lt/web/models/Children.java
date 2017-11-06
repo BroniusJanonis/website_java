@@ -16,6 +16,27 @@ public class Children {
     public Children() {
     }
 
+    public Children(int childId) {
+        this.childId = childId;
+    }
+
+    public Children(String name, String surname, Fosters foster, SchoolClasses schoolClasse, Users user) {
+        this.name = name;
+        this.surname = surname;
+        this.foster = foster;
+        this.schoolClasse = schoolClasse;
+        this.user = user;
+    }
+
+    public Children(int childId, String name, String surname, Fosters foster, SchoolClasses schoolClasse, Users user) {
+        this.childId = childId;
+        this.name = name;
+        this.surname = surname;
+        this.foster = foster;
+        this.schoolClasse = schoolClasse;
+        this.user = user;
+    }
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "CHILD_ID", unique = true, nullable = false)

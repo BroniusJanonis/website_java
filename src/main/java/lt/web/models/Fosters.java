@@ -17,6 +17,10 @@ public class Fosters {
     public Fosters() {
     }
 
+    public Fosters(int fosterId) {
+        this.fosterId = fosterId;
+    }
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "FOSTER_ID", unique = true, nullable = false)
