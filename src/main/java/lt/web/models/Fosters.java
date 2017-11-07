@@ -17,6 +17,23 @@ public class Fosters {
     public Fosters() {
     }
 
+    public Fosters(int fosterId, String name, String surname, String phone, String address, Users user) {
+        this.fosterId = fosterId;
+        this.name = name;
+        this.surname = surname;
+        this.phone = phone;
+        this.address = address;
+        this.user = user;
+    }
+
+    public Fosters(String name, String surname, String phone, String address, Users user) {
+        this.name = name;
+        this.surname = surname;
+        this.phone = phone;
+        this.address = address;
+        this.user = user;
+    }
+
     public Fosters(int fosterId) {
         this.fosterId = fosterId;
     }

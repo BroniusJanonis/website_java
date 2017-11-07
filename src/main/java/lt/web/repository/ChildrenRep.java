@@ -1,6 +1,7 @@
 package lt.web.repository;
 
 import lt.web.models.Children;
+import lt.web.models.Users;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
@@ -19,7 +20,13 @@ public interface ChildrenRep extends JpaRepository<Children, Long>{
     void updateChild(@Param("name") String name, @Param("surname") String surname , @Param("fosterId") int fosterId, @Param("schoolClassesId") int schoolClassesId, @Param("userId") int userId, @Param("childId") int childId);
     @Modifying
 //    insert into webchildren (name, surname, foster_id, school_classes_id, user_id) values ('name1', 'surname1', 1, 3, 34)
-    @Query(nativeQuery = true, value = "INSERT into Children (name, surname, foster.fosterId, schoolClasses.schoolClassesId, user.userId) VALUES (:name, :surname, :fosterId, :schoolClassesId, :userId)")
+    @Query(nativeQuery = true, value = "INSERT INTO webchildren (name, surname, foster_id, school_classes_id, user_id) VALUES (:name, :surname, :fosterId, :schoolClassesId, :userId)")
     @Transactional
     void saveChild(@Param("name") String name, @Param("surname") String surname , @Param("fosterId") int fosterId, @Param("schoolClassesId") int schoolClassesId, @Param("userId") int userId);
+
+    @Modifying
+    @Query("update Children set foster.fosterId = :fosterId where childId = :childId")
+//    update webchildren set foster_id= 1 where child_id = 2
+    @Transactional
+    void updateChildrensFoster(@Param("childId") int childId, @Param("fosterId") int fosterId);
 }

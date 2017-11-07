@@ -1,6 +1,7 @@
 package lt.web.service;
 
 import lt.web.models.Children;
+import lt.web.models.Fosters;
 import lt.web.repository.ChildrenRep;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -31,6 +32,11 @@ public class ChildrenService implements IChildrenService {
 
     @Override
     public void deleteChildren(int childId) {
-        childrenRep.delete(new Children(childId));
+        childrenRep.delete(Long.valueOf(childId));
+    }
+
+    @Override
+    public void updateChildrensFoster(int childId, int fosterId) {
+        childrenRep.updateChildrensFoster(childId, fosterId);
     }
 }

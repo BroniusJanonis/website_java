@@ -43,4 +43,14 @@ public class UserService implements IUserService{
         userRep.deleteUsersByTeacherId(teacherId);
     }
 
+    @Override
+    public void deleteUserByChildId(int childId) {
+        userRep.deleteUsersByChildId(childId);
+    }
+
+    @Override
+    public void deleteUserByFosterId(int fosterId) {
+        userRep.deleteUsersByFosterId(fosterId);
+    }
+
 }

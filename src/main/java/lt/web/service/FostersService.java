@@ -17,4 +17,14 @@ public class FostersService implements IFosterService{
     public List<Fosters> getFostersList() {
         return fostersRep.findAll();
     }
+
+    @Override
+    public void updateFoster(Fosters fosters) {
+        fostersRep.updateFoster(fosters.getName(), fosters.getSurname(), fosters.getPhone(), fosters.getAddress(), fosters.getFosterId(), fosters.getUser().getUserId());
+    }
+
+    @Override
+    public Fosters saveFoster(Fosters foster) {
+        return fostersRep.save(foster);
+    }
 }

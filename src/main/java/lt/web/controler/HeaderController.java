@@ -9,7 +9,6 @@ import org.springframework.web.bind.annotation.RequestMethod;
 @ComponentScan({"lt.web"})
 public class HeaderController {
 
-    // "redirect:teacherMain" reikia idet ir kituose, kai pabaigsiu!!!!!!!!!!!!!!!!!!!!!!!!
     @RequestMapping(value = "/redirectTeacherWindow", method = RequestMethod.GET)
     public String teacherWindow(){
         return "redirect:teacherMain";
@@ -18,9 +17,17 @@ public class HeaderController {
     public String schoolChildWindow(){
         return "redirect:schoolChildMain";
     }
+    @RequestMapping(value = "/redirectFosterWindow", method = RequestMethod.GET)
+    public String fosterWindow(){
+        return "redirect:fosterMain";
+    }
     @RequestMapping(value = "/redirectSubjectsWindow", method = RequestMethod.GET)
     public String subjectWindow(){
         return "redirect:subjectMain";
+    }
+    @RequestMapping(value = "/redirectSchoolClassesWindow", method = RequestMethod.GET)
+    public String schoolClassesWindow(){
+        return "redirect:schoolClassesMain";
     }
 
 }

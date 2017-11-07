@@ -21,4 +21,16 @@ public interface UserRep extends JpaRepository<Users, Long> {
     @Transactional
     void deleteUsersByTeacherId(@Param("teacherId") int teacherId);
 
+    @Modifying
+//    DELETE FROM webusers WHERE user_id IN (SELECT webchildren.user_id FROM webchildren WHERE user_id= 46)
+    @Query("DELETE FROM Users WHERE userId IN (SELECT user.userId FROM Children WHERE childId= :childId)")
+    @Transactional
+    void deleteUsersByChildId(@Param("childId") int childId);
+
+    @Modifying
+//    DELETE FROM webusers where user_id IN (SELECT webfosters.user_id FROM webfosters WHERE webfosters.foster_id = 6)
+    @Query("DELETE FROM Users WHERE userId IN (SELECT user.userId FROM Fosters WHERE fosterId = :fosterId)")
+    @Transactional
+    void deleteUsersByFosterId(@Param("fosterId") int fosterId);
+
 }

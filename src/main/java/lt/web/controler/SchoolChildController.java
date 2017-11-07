@@ -15,6 +15,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import java.util.HashSet;
 import java.util.List;
@@ -71,13 +72,11 @@ public class SchoolChildController {
         return "redirect:schoolChildMain";
     }
 
-//    @RequestMapping(value = "/deleteTeacher", method = RequestMethod.POST)
-//    @ResponseBody
-//    public String deleteTeacher(@RequestParam("teacherId") int teacherId){
-////       schoolClassesService.deleteSchoolclassesByTeacherId(teacherId);
-//        userService.deleteUserByTeacherId(teacherId);
-////       teacherService.deleteTeacher(teacherId);
-//        return "Istryne Teacher su jo user, klase, subjects";
-//    }
+    @RequestMapping(value = "/deleteChild", method = RequestMethod.POST)
+    @ResponseBody
+    public String deleteTeacher(@RequestParam("schoolChildId") int childId){
+        userService.deleteUserByChildId(childId);
+        return "Istryne Child";
+    }
 
 }

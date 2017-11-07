@@ -20,6 +20,11 @@ public class Children {
         this.childId = childId;
     }
 
+    public Children(int childId, Fosters foster) {
+        this.childId = childId;
+        this.foster = foster;
+    }
+
     public Children(String name, String surname, Fosters foster, SchoolClasses schoolClasse, Users user) {
         this.name = name;
         this.surname = surname;

@@ -9,8 +9,8 @@
     </database>
     <schema id="3" parent="2" name="public">
       <ObjectId>2200</ObjectId>
-      <IntrospectionTimestamp>2017-11-03.14:05:05.772</IntrospectionTimestamp>
-      <IntrospectionStateNumber>6361</IntrospectionStateNumber>
+      <IntrospectionTimestamp>2017-11-07.14:00:22.363</IntrospectionTimestamp>
+      <IntrospectionStateNumber>6618</IntrospectionStateNumber>
       <Current>1</Current>
       <Visible>1</Visible>
     </schema>
@@ -427,11 +427,11 @@
     </table>
     <table id="92" parent="3" name="webchildren">
       <ObjectId>20522</ObjectId>
-      <StateNumber>6009</StateNumber>
+      <StateNumber>6618</StateNumber>
     </table>
     <table id="93" parent="3" name="webfosters">
       <ObjectId>20530</ObjectId>
-      <StateNumber>6010</StateNumber>
+      <StateNumber>6618</StateNumber>
     </table>
     <table id="94" parent="3" name="webroles">
       <ObjectId>20538</ObjectId>
@@ -451,7 +451,7 @@
     </table>
     <table id="98" parent="3" name="webusers">
       <ObjectId>20570</ObjectId>
-      <StateNumber>6361</StateNumber>
+      <StateNumber>6606</StateNumber>
     </table>
     <column id="99" parent="43" name="id">
       <Position>1</Position>
@@ -2562,13 +2562,14 @@ roleauth15_id</ColNames>
       <Primary>1</Primary>
     </key>
     <foreign-key id="473" parent="92" name="fk1ybj2ue4i91t7uulfvejgtl73">
-      <ObjectId>20584</ObjectId>
+      <ObjectId>20659</ObjectId>
       <ColNames>foster_id</ColNames>
       <RefTableId>20530</RefTableId>
       <RefColPositions>1</RefColPositions>
       <RefTableName>webfosters</RefTableName>
       <RefKeyName>webfosters_pkey</RefKeyName>
       <RefColNames>foster_id</RefColNames>
+      <OnDelete>set-null</OnDelete>
     </foreign-key>
     <foreign-key id="474" parent="92" name="fk8q6787i6jjjupxlqxgl31n3mc">
       <ObjectId>20589</ObjectId>
@@ -2580,13 +2581,14 @@ roleauth15_id</ColNames>
       <RefColNames>school_classes_id</RefColNames>
     </foreign-key>
     <foreign-key id="475" parent="92" name="fkduipcw75c8v4xvgmwp07mwkcs">
-      <ObjectId>20594</ObjectId>
+      <ObjectId>20644</ObjectId>
       <ColNames>user_id</ColNames>
       <RefTableId>20570</RefTableId>
       <RefColPositions>1</RefColPositions>
       <RefTableName>webusers</RefTableName>
       <RefKeyName>webusers_pkey</RefKeyName>
       <RefColNames>user_id</RefColNames>
+      <OnDelete>cascade</OnDelete>
     </foreign-key>
     <column id="476" parent="93" name="foster_id">
       <Position>1</Position>
@@ -2637,13 +2639,14 @@ roleauth15_id</ColNames>
       <Primary>1</Primary>
     </key>
     <foreign-key id="484" parent="93" name="fk67u3ch6lnt69rfwqfmr69qcxm">
-      <ObjectId>20599</ObjectId>
+      <ObjectId>20649</ObjectId>
       <ColNames>user_id</ColNames>
       <RefTableId>20570</RefTableId>
       <RefColPositions>1</RefColPositions>
       <RefTableName>webusers</RefTableName>
       <RefKeyName>webusers_pkey</RefKeyName>
       <RefColNames>user_id</RefColNames>
+      <OnDelete>cascade</OnDelete>
     </foreign-key>
     <column id="485" parent="94" name="role_id">
       <Position>1</Position>

@@ -1,28 +1,28 @@
-<%@ page import="lt.web.models.Subjects" %>
-<%@ page import="java.util.Set" %>
+<%--
+  Created by IntelliJ IDEA.
+  User: Code Academy
+  Date: 11/7/2017
+  Time: 10:33 AM
+  To change this template use File | Settings | File Templates.
+--%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
-<%@taglib prefix="spring" uri="http://www.springframework.org/tags" %>
-<%--pasidarom kelia, kad gautumem resursus, nes taip bus lengviau susirasti kelia, Bootsrap, Css--%>
-<c:set var="path" value="${pageContext.request.contextPath}"/>
 <html>
 <head>
-    <title>Teacher window</title>
-    <%--randam, kur yra registracijos langas--%>
-    <%--<link rel="stylesheet" href="${path}/resources/css/style.css">--%>
-    <%--<link rel="stylesheet" href="${path}/resources/css/bootstrap.min.css">--%>
+    <title>Foster</title>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/css/bootstrap.min.css" integrity="sha384-PsH8R72JQ3SOdhVi3uxftmaW6Vc51MKb0q5P2rRUpPvrszuE4W1povHYgTpBfshb" crossorigin="anonymous">
-
 </head>
 <body>
+
 <div class="container">
     <div class="row">
         <div class="col-xl-2">
             <%@include file="headerMain.jsp"%>
         </div>
         <div class="col-xl-10">
-
+            <%--${allFosters[0].getName()}--%>
+            <%--${allFosters[0].getChildrenList().get(0).getName()}--%>
             <c:if test="${pageContext.request.userPrincipal.name!=null}">
                 <%--/logout cia yra Spring'o logout metodas, kuris atsakingas uz token sesijos atsijungima.
                 Pirma siunciam i WebSecurityConfiguration > "/logout" ir ten atjungiam bei on success nukreipia i mvc3 controlerio "/" langa, kuris pas mus yra irgi logino langas--%>
@@ -39,48 +39,41 @@
 
             <input  class="border border-primary" type="text" id="myInput" onkeyup="searchBy()" placeholder="Ieškoti pagal varda..." >
             <br>
-            <%--${subjectSet.iterator().next().getSubjectId()}--%>
-            <%--${teachersList.get(0).getName()}--%>
-            <button class="btn btn-success addTeacher" data-toggle="modal" data-target="#myModal" onclick="addTeacher('${subjectSet}')">Add Teacher</button>
+            <button class="btn btn-success addFoster" data-toggle="modal" data-target="#myModal" onclick="addFoster()">Add Foster</button>
             <table class="table table-bordered table-striped" id="myModalTable">
                 <thead>
                 <tr>
-                    <th class="" hidden>teacherId</th>
+                    <th class="" hidden>fosterId</th>
                     <th class="">name</th>
                     <th class="">surname</th>
                     <th class="">phone</th>
-                    <th class="">subject</th>
-                    <th class="" hidden>schoolClassesId</th>
-                    <th class="">schoolClassesTitle</th>
+                    <th class="">address</th>
+                    <th class="">childrenList</th>
                     <th class="" hidden>userId</th>
                     <th class="">Update</th>
                     <th class="">Delete</th>
                 </tr>
                 </thead>
                 <tbody>
-                <c:forEach var="teacher" items="${teachersList}" varStatus="theCount">
+                <c:forEach var="foster" items="${allFosters}" varStatus="theCount">
                     <tr>
-                            <%--<label id="surname${theCount.index}" type="text" name="surname" value="${teach.getSurname()}" hidden/>--%>
-                        <td style="text-align:center;" class="" hidden>${teacher.getTeacherId()}</td>
-                        <td style="text-align:center;" class="">${teacher.getName()}</td>
-                        <td style="text-align:center;" class="">${teacher.getSurname()}</td>
-                        <td style="text-align:center;" class="">${teacher.getPhone()}</td>
-                        <td style="text-align:center;" class="">
-                            <c:forEach var="subj" items="${teacher.getSubject()}" varStatus="subjCount">
-                                <p style="text-align:center;" class="">
-                                    <input type="number" value="${subj.getSubjectId()}" hidden />
-                                    <label style="text-align:center;" class="">${subj.getSubjectName()}</label>
-                                </p>
+                        <td style="text-align:center;" class="" hidden>${foster.getFosterId()}</td>
+                        <td style="text-align:center;" class="">${foster.getName()}</td>
+                        <td style="text-align:center;" class="">${foster.getSurname()}</td>
+                        <td style="text-align:center;" class="">${foster.getPhone()}</td>
+                        <td style="text-align:center;" class="">${foster.getAddress()}</td>
+                        <td>
+                            <c:forEach var="child" items="${foster.getChildrenList()}">
+                                <label>${child.getName()}_${child.getSurname()}</label>
+                                <br>
                             </c:forEach>
                         </td>
-                        <td style="text-align:center;" class="" hidden>${teacher.getSchoolClasses().getSchoolClassesId()}</td>
-                        <td style="text-align:center;" class="">${teacher.getSchoolClasses().getTitle()}</td>
-                        <td style="text-align:center;" class="" hidden>${teacher.getUser().getUserId()}</td>
+                        <td style="text-align:center;" class="" hidden>${foster.getUser().getUserId()}</td>
                         <td style="text-align:center;" class="">
-                            <button class="btn btn-success updateTeacher" data-toggle="modal" data-target="#myModal" contenteditable="false">Update</button>
+                            <button class="btn btn-success updateFoster" data-toggle="modal" data-target="#myModal" contenteditable="false">Update</button>
                         </td>
                         <td style="text-align:center;" class="">
-                            <button class="btn btn-success" id="delete${theCount.index}" onclick="deleteTeacher(${teacher.getTeacherId()})">Delete</button>
+                            <button class="btn btn-success" id="delete${theCount.index}" onclick="deleteFoster(${foster.getFosterId()})">Delete</button>
                         </td>
                     </tr>
                 </c:forEach>
@@ -97,7 +90,7 @@
                 <div class="modal-dialog">
                     <div class="modal-content">
                         <div class="modal-header">
-                            <h4 class="modal-title" id="myModalLabel">Teacher</h4>
+                            <h4 class="modal-title" id="myModalLabel">Foster</h4>
                             <button type="button" class="close" data-dismiss="modal"> <span aria-hidden="true" class="">×   </span><span class="sr-only">Close</span>
                             </button>
                         </div>
@@ -118,7 +111,6 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.3/umd/popper.min.js" integrity="sha384-vFJXuSJphROIrBnz7yo7oB41mKfc8JzQZiCq4NCceLEaO4IHwicKwpJf9c9IpFgh" crossorigin="anonymous"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/js/bootstrap.min.js" integrity="sha384-alpBpkh1PFOepccYVYDB4do5UnbKysX5WZXm3XxPqe5iKTfUKjNkCk9SaVuEZflJ" crossorigin="anonymous"></script>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-<%--<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>--%>
 </body>
 <script>
     function searchBy() {
@@ -149,53 +141,33 @@
     });
 </script>
 <script>
-    $(".updateTeacher[data-target='#myModal']").click(function() {
-        // Row Column headings
+    $(".updateFoster[data-target='#myModal']").click(function() {
         var columnHeadings = $("thead th").map(function() {
             return $(this).text();
         }).get();
-//        console.log(columnHeadings);
-        columnHeadings.pop();
-        // Row Column Values
         var columnValues = $(this).parent().siblings().map(function() {
             return $(this).text();
         }).get();
-//        var subjectValues = $(this).parent().siblings().get(4).innerText;
-//        var subjectSize = $("td p").length;
-//        $("td p")[0]
-        // Subject lists Titles
         var subjectTitles = $(this).parent().siblings(4).children("p").children("label").map(function() {
             return $(this).text();
         }).get();
-//        var subjectSize = $(this).parent().siblings(4).children("p").length;
-//        [4].children["0"].innerText
-        // Subject Lists Id
         var subjectIds = $(this).parent().siblings(4).children("p").children("input").map(function () {
             return $(this).val();
         });
-//        console.log(subjectIds);
         var modalBody = $('<div id="modalContent"></div>');
-        var modalForm = $('<form role="form" name="modalForm" action="saveAndFlushTeacher" method="post"></form>');
+        var modalForm = $('<form role="form" name="modalForm" action="updateFoster" method="post"></form>');
         $.each(columnHeadings, function(i, columnHeader) {
-//            console.log(columnHeader);
             var formGroup = $('<div class="form-group"></div>');
-            if (columnHeader == "subject") {
-//                var columnSubjects = $("tbody tr td p").map(function() {
-//                    return $(this).text();
-//                }).get();
-//                var columnSubjectValues = $(this).parent().siblings().map(function() {
-//                    return $(this).text();
-//                }).get();
-                var subjectGroup = $('<div class="subject-group"></div>').appendTo(formGroup);
-                subjectGroup.append('<label>' + columnHeader + '</label>');
-                $.each(subjectTitles, function (i, columnSubject) {
-                    subjectGroup.append('<input class="form-control" name="subjectName" value="' + subjectTitles[i] + '" />');
-                    subjectGroup.append('<input class="form-control" name="subjectId" value="' + subjectIds[i] + '" hidden />');
-                });
-            } else if(columnHeader == "Update" || columnHeader == "Delete"){
+            if (columnHeader == "Update" || columnHeader == "Delete"){
                 return;
-            } else if (columnHeader == "teacherId" || columnHeader == "schoolClassesId" || columnHeader == "userId" ){
+            }else if (columnHeader == "fosterId" || columnHeader == "userId"){
                 formGroup.append('<input class="form-control" name="' + columnHeader + '" value="' + columnValues[i] + '" hidden/>');
+            } else if(columnHeader == "childrenList") {
+                formGroup.append('<label>' + columnHeader + '</label>');
+                var classesGroup = $('<select name="childId" multiple/>').appendTo(formGroup);
+                <c:forEach var="children" items="${childrenList}">
+                classesGroup.append('<option value="' + "${children.getChildId()}" + '">' + "${children.getName()} ${children.getSurname()}" + '</option>');
+                </c:forEach>
             } else {
                 formGroup.append('<label>' + columnHeader + '</label>');
                 formGroup.append('<input class="form-control" name="' + columnHeader + '" value="' + columnValues[i] + '" />');
@@ -210,46 +182,40 @@
     });
 </script>
 <script>
-    function addTeacher(subjectSet) {
-        <%--var setSize = "${subjectSet.size()}";--%>
-        <%--var setSubject = "${subjectSet.iterator().next().getSubjectName()}";--%>
-        <%--console.log(setSubject + " " + setSize);--%>
-        $('.modal-title').innerText = "Add";
+    function addFoster() {
+        $('#h4 .modal-title').innerText = "Add";
         var modalBody = $('<div id="modalAddContent"></div>');
-        var modalForm = $('<form role="form" name="modalForm" action="addTeacher" method="post"></form>');
+        var modalForm = $('<form role="form" name="modalForm" action="addFoster" method="post"></form>');
         var formGroup = $('<div class="form-group"></div>');
         formGroup.append('<label> Name </label>');
         formGroup.append('<input class="form-control" name="name"/>');
         formGroup.append('<label> Surname </label>');
         formGroup.append('<input class="form-control" name="surname"/>');
+        formGroup.append('<label> Address </label>');
+        formGroup.append('<input class="form-control" name="address"/>');
         formGroup.append('<label> Phone </label>');
         formGroup.append('<input class="form-control" name="phone"/>');
-        formGroup.append('<label> SchoolClassesTitle </label>');
-        formGroup.append('<input class="form-control" name="schoolClassesTitle"/>');
         formGroup.append('<label> Email </label>');
         formGroup.append('<input class="form-control" name="email"/>');
         formGroup.append('<label> Password </label>');
         formGroup.append('<input class="form-control" name="password"/>');
-        formGroup.append('<label> Subject </label>');
-        var subjectGroup = $('<div class="subject-group"></div>').appendTo(formGroup);
-        <c:forEach var="subjectName" items="${subjectSet}">
-        <%--console.log("${subjectName}");--%>
-            subjectGroup.append('<input type="checkbox" class="form-control" name="subjectName" value="' + "${subjectName}" + '"/>' + "${subjectName}");
+        formGroup.append('<label> ChildrenList </label>');
+        var fosterGroup = $('<select name="childId" multiple/><br>').appendTo(formGroup);
+        <c:forEach var="children" items="${childrenList}">
+        fosterGroup.append('<option value="' + "${children.getChildId()}" + '">' + "${children.getName()} ${children.getSurname()}" + '</option>');
         </c:forEach>
         modalForm.append(formGroup);
         modalBody.append(modalForm);
         $('.modal-body').html(modalBody);
 
-    $('.modal-footer .btn-primary').click(function() {
-        $('form[name="modalForm"]').submit();
-    });
+        $('.modal-footer .btn-primary').click(function() {
+            $('form[name="modalForm"]').submit();
+        });
     }
 </script>
 <script>
-    function deleteTeacher(teacherId) {
-//        alert(val);
-        $.post("/deleteTeacher?teacherId="+teacherId, function (data) {
-//            alert(data);
+    function deleteFoster(fosterId) {
+        $.post("/deleteFoster?fosterId="+fosterId, function (data) {
             location.reload(true);
         });
     }
