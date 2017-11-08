@@ -39,4 +39,9 @@ public class ChildrenService implements IChildrenService {
     public void updateChildrensFoster(int childId, int fosterId) {
         childrenRep.updateChildrensFoster(childId, fosterId);
     }
+
+    @Override
+    public void updateChildrenByClassId(int schoolClassesId, int id) {
+        childrenRep.updateChildrensClasses(schoolClassesId, id);
+    }
 }

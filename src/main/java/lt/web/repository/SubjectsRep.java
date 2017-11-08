@@ -1,12 +1,14 @@
 package lt.web.repository;
 
 import lt.web.models.Subjects;
+import lt.web.models.Teachers;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
 import javax.transaction.Transactional;
+import java.util.List;
 
 public interface SubjectsRep extends JpaRepository<Subjects, Long> {
     @Modifying
@@ -14,4 +16,10 @@ public interface SubjectsRep extends JpaRepository<Subjects, Long> {
     @Transactional
 //    update websubjects set subject_name = 'subjectName1', teacher_id = 5 where subject_id = 2
     int setSubjectById(@Param("subjectName") String subjectName, @Param("teacherId") int teacherId , @Param("subjectId") int subjectId);
+
+    @Modifying
+    @Query(nativeQuery = true, value = "SELECT teacher_id FROM webteachers WHERE teacher_id IN (SELECT teacher_id FROM websubjects WHERE subject_name= :subjectName)")
+    @Transactional
+    List<Integer> getTeachersListBySubjectName(@Param("subjectName") String subjectName);
+
 }

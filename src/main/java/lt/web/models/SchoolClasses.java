@@ -32,6 +32,12 @@ public class SchoolClasses {
         this.teacher = teacher;
     }
 
+    public SchoolClasses(int schoolClassesId, String title, Teachers teacher) {
+        this.schoolClassesId = schoolClassesId;
+        this.title = title;
+        this.teacher = teacher;
+    }
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "SCHOOL_CLASSES_ID", unique = true, nullable = false)

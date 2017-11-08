@@ -11,4 +11,5 @@ public interface ITeacherService {
     Teachers saveAndFlushTeacher(Teachers teachers);
     Teachers saveTeacher(Teachers teachers);
     void deleteTeacher(int teacherId);
+    Teachers findByTeacherId(int teacherId);
 }

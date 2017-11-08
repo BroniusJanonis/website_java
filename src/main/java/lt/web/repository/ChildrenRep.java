@@ -29,4 +29,9 @@ public interface ChildrenRep extends JpaRepository<Children, Long>{
 //    update webchildren set foster_id= 1 where child_id = 2
     @Transactional
     void updateChildrensFoster(@Param("childId") int childId, @Param("fosterId") int fosterId);
+
+    @Modifying
+    @Query("update Children set schoolClasses.schoolClassesId = :schoolClassesId where childId = :childId")
+    @Transactional
+    void updateChildrensClasses(@Param("schoolClassesId") int schoolClassesId, @Param("childId") int childId);
 }

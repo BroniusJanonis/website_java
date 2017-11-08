@@ -10,4 +10,5 @@ public interface IChildrenService {
     void updateChildren(Children children);
     void deleteChildren(int childId);
     void updateChildrensFoster(int childId, int fosterId);
+    void updateChildrenByClassId(int schoolClassesId, int id);
 }

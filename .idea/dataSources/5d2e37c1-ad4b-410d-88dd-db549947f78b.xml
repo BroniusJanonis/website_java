@@ -9,8 +9,8 @@
     </database>
     <schema id="3" parent="2" name="public">
       <ObjectId>2200</ObjectId>
-      <IntrospectionTimestamp>2017-11-07.14:00:22.363</IntrospectionTimestamp>
-      <IntrospectionStateNumber>6618</IntrospectionStateNumber>
+      <IntrospectionTimestamp>2017-11-08.13:25:12.592</IntrospectionTimestamp>
+      <IntrospectionStateNumber>6802</IntrospectionStateNumber>
       <Current>1</Current>
       <Visible>1</Visible>
     </schema>
@@ -427,7 +427,7 @@
     </table>
     <table id="92" parent="3" name="webchildren">
       <ObjectId>20522</ObjectId>
-      <StateNumber>6618</StateNumber>
+      <StateNumber>6794</StateNumber>
     </table>
     <table id="93" parent="3" name="webfosters">
       <ObjectId>20530</ObjectId>
@@ -439,15 +439,15 @@
     </table>
     <table id="95" parent="3" name="webschoolclasses">
       <ObjectId>20546</ObjectId>
-      <StateNumber>6336</StateNumber>
+      <StateNumber>6794</StateNumber>
     </table>
     <table id="96" parent="3" name="websubjects">
       <ObjectId>20554</ObjectId>
-      <StateNumber>6338</StateNumber>
+      <StateNumber>6802</StateNumber>
     </table>
     <table id="97" parent="3" name="webteachers">
       <ObjectId>20562</ObjectId>
-      <StateNumber>6361</StateNumber>
+      <StateNumber>6802</StateNumber>
     </table>
     <table id="98" parent="3" name="webusers">
       <ObjectId>20570</ObjectId>
@@ -2572,13 +2572,14 @@ roleauth15_id</ColNames>
       <OnDelete>set-null</OnDelete>
     </foreign-key>
     <foreign-key id="474" parent="92" name="fk8q6787i6jjjupxlqxgl31n3mc">
-      <ObjectId>20589</ObjectId>
+      <ObjectId>20669</ObjectId>
       <ColNames>school_classes_id</ColNames>
       <RefTableId>20546</RefTableId>
       <RefColPositions>1</RefColPositions>
       <RefTableName>webschoolclasses</RefTableName>
       <RefKeyName>webschoolclasses_pkey</RefKeyName>
       <RefColNames>school_classes_id</RefColNames>
+      <OnDelete>set-null</OnDelete>
     </foreign-key>
     <foreign-key id="475" parent="92" name="fkduipcw75c8v4xvgmwp07mwkcs">
       <ObjectId>20644</ObjectId>
@@ -2714,14 +2715,14 @@ roleauth15_id</ColNames>
       <UnderlyingIndexName>uk_7pwlb6p2d7bqtwnw2jt4in1jd</UnderlyingIndexName>
     </key>
     <foreign-key id="496" parent="95" name="fkpuvcwlcffsljgn2kyiemiw7f0">
-      <ObjectId>20624</ObjectId>
+      <ObjectId>20664</ObjectId>
       <ColNames>teacher_id</ColNames>
       <RefTableId>20562</RefTableId>
       <RefColPositions>1</RefColPositions>
       <RefTableName>webteachers</RefTableName>
       <RefKeyName>webteachers_pkey</RefKeyName>
       <RefColNames>teacher_id</RefColNames>
-      <OnDelete>cascade</OnDelete>
+      <OnDelete>set-null</OnDelete>
     </foreign-key>
     <column id="497" parent="96" name="subject_id">
       <Position>1</Position>
@@ -2753,14 +2754,13 @@ roleauth15_id</ColNames>
       <Primary>1</Primary>
     </key>
     <foreign-key id="502" parent="96" name="fko398nn2oimf7mivno0qwkdj0h">
-      <ObjectId>20629</ObjectId>
+      <ObjectId>20679</ObjectId>
       <ColNames>teacher_id</ColNames>
       <RefTableId>20562</RefTableId>
       <RefColPositions>1</RefColPositions>
       <RefTableName>webteachers</RefTableName>
       <RefKeyName>webteachers_pkey</RefKeyName>
       <RefColNames>teacher_id</RefColNames>
-      <OnDelete>cascade</OnDelete>
     </foreign-key>
     <column id="503" parent="97" name="teacher_id">
       <Position>1</Position>

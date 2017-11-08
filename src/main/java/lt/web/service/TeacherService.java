@@ -36,4 +36,11 @@ public class TeacherService implements ITeacherService{
     public void deleteTeacher(int teacherId) {
         teachersRep.delete(new Teachers(teacherId));
     }
+
+    @Override
+    public Teachers findByTeacherId(int teacherId) {
+        return teachersRep.findByTeacherId(teacherId);
+    }
+
+
 }

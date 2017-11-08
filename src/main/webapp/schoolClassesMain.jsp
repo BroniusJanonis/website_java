@@ -3,7 +3,7 @@
 <%@taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <html>
 <head>
-    <title>SchoolChild</title>
+    <title>SchoolClasses</title>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/css/bootstrap.min.css" integrity="sha384-PsH8R72JQ3SOdhVi3uxftmaW6Vc51MKb0q5P2rRUpPvrszuE4W1povHYgTpBfshb" crossorigin="anonymous">
 </head>
 <body>
@@ -13,7 +13,7 @@
             <%@include file="headerMain.jsp"%>
         </div>
         <div class="col-xl-10">
-            ${allClasses[0].getChildrenList().get(0).getName()}
+            <%--${allClasses[0].getChildrenList().get(0).getName()}--%>
             <c:if test="${pageContext.request.userPrincipal.name!=null}">
                 <%--/logout cia yra Spring'o logout metodas, kuris atsakingas uz token sesijos atsijungima.
                 Pirma siunciam i WebSecurityConfiguration > "/logout" ir ten atjungiam bei on success nukreipia i mvc3 controlerio "/" langa, kuris pas mus yra irgi logino langas--%>
@@ -144,12 +144,12 @@
             return $(this).val();
         });
         var modalBody = $('<div id="modalContent"></div>');
-        var modalForm = $('<form role="form" name="modalForm" action="saveSchoolClass" method="post"></form>');
+        var modalForm = $('<form role="form" name="modalForm" action="updateSchoolClass" method="post"></form>');
         $.each(columnHeadings, function(i, columnHeader) {
             var formGroup = $('<div class="form-group"></div>');
-            if (columnHeader == "Update" || columnHeader == "Delete"){
+            if (columnHeader == "Update" || columnHeader == "Delete" || columnHeader == "teacherId"){
                 return;
-            }else if (columnHeader == "schoolClassesId" || columnHeader == "teacherId"){
+            }else if (columnHeader == "schoolClassesId" || columnHeader == "title"){
                 formGroup.append('<input class="form-control" name="' + columnHeader + '" value="' + columnValues[i] + '" hidden/>');
             } else if(columnHeader == "childrenList") {
                 formGroup.append('<label>' + columnHeader + '</label>');
@@ -159,14 +159,26 @@
                 </c:forEach>
             }else if(columnHeader == "teacher") {
                 formGroup.append('<label>' + columnHeader + '</label>');
-                var teacherGroup = $('<select name="teacherId" multiple/>').appendTo(formGroup);
+                var teacherGroup = $('<select name="teacherId"/>').appendTo(formGroup);
+                // choices teacher by Default
+                var teacherId = columnValues[i-1];
+                if(teacherId == ""){
+                    teacherId = 0;
+                }
+                teacherGroup.append('<option value="' + teacherId + '">' + "Pasirinktas mokytojas " + columnValues[i] + '</option>');
                 <c:forEach var="teacher" items="${allTeachers}">
                 teacherGroup.append('<option value="' + "${teacher.getTeacherId()}" + '">' + "${teacher.getName()} ${teacher.getSurname()}" + '</option>');
                 </c:forEach>
-            } else {
-                formGroup.append('<label>' + columnHeader + '</label>');
-                formGroup.append('<input class="form-control" name="' + columnHeader + '" value="' + columnValues[i] + '" />');
             }
+            <%--else if (columnHeader == "title") {--%>
+                <%--formGroup.append('<label>' + columnHeader + '</label>');--%>
+                <%--var teacherGroup = $('<select name="title"/>').appendTo(formGroup);--%>
+                <%--// choices ClassesTitle by Default--%>
+                <%--teacherGroup.append('<option value="' + columnValues[i] + '">' + "Pasirinkta klase " + columnValues[i] + '</option>');--%>
+                <%--<c:forEach var="classes" items="${allClasses}">--%>
+                <%--teacherGroup.append('<option value="' + "${classes.getTitle()}" + '">' + "${classes.getTitle()}" + '</option>');--%>
+                <%--</c:forEach>--%>
+            <%--}--%>
             modalForm.append(formGroup);
         });
         modalBody.append(modalForm);
@@ -177,30 +189,23 @@
     });
 </script>
 <script>
-
-        childrenList
-        teacherId
-        teacher
-
     function addClass() {
         $('#h4 .modal-title').innerText = "Add";
         var modalBody = $('<div id="modalAddContent"></div>');
-        var modalForm = $('<form role="form" name="modalForm" action="addChild" method="post"></form>');
+        var modalForm = $('<form role="form" name="modalForm" action="addClasses" method="post"></form>');
         var formGroup = $('<div class="form-group"></div>');
         formGroup.append('<label> Title </label>');
         formGroup.append('<input class="form-control" name="title"/>');
-        formGroup.append('<label> childrenList </label>');
-        var childGroup = $('<select name="childId" multiple/><br>').appendTo(formGroup);
-        <c:forEach var="child" items="${allChildren}">
-        childGroup.append('<option value="' + "${child.getChildId()}" + '">' + "${child.getName()} ${child.getSurname()}" + '</option>');
-        </c:forEach>
-
-        formGroup.append('<label> Teacher </label>');
-        var classesGroup = $('<select name="teacherId"/>').appendTo(formGroup);
-        <c:forEach var="teacher" items="${allTeachers}">
-        classesGroup.append('<option value="' + "${teacher.getTeacherId()}" + '">' + "${teacher.getName()} ${teacher.getSurname()}" + '</option>');
-        </c:forEach>
-
+        <%--formGroup.append('<label> childrenList </label>');--%>
+        <%--var childGroup = $('<select name="childId" multiple/><br>').appendTo(formGroup);--%>
+        <%--<c:forEach var="child" items="${allChildren}">--%>
+        <%--childGroup.append('<option value="' + "${child.getChildId()}" + '">' + "${child.getName()} ${child.getSurname()}" + '</option>');--%>
+        <%--</c:forEach>--%>
+        <%--formGroup.append('<label> Teacher </label>');--%>
+        <%--var classesGroup = $('<select name="teacherId"/>').appendTo(formGroup);--%>
+        <%--<c:forEach var="teacher" items="${allTeachers}">--%>
+        <%--classesGroup.append('<option value="' + "${teacher.getTeacherId()}" + '">' + "${teacher.getName()} ${teacher.getSurname()}" + '</option>');--%>
+        <%--</c:forEach>--%>
         modalForm.append(formGroup);
         modalBody.append(modalForm);
         $('.modal-body').html(modalBody);

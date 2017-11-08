@@ -8,6 +8,8 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
+
 @Repository
 public interface SchoolClassesRep extends JpaRepository<SchoolClasses, Long>{
     @Modifying
@@ -22,4 +24,5 @@ public interface SchoolClassesRep extends JpaRepository<SchoolClasses, Long>{
 //    void deleteSchoolClassesByTeacher_TeacherId(@Param("teacherId") int teacherId);
 
     void deleteSchoolClassesByTeacher_TeacherId(int teacherId);
+    SchoolClasses findByTeacher_TeacherId(int teacherId);
 }

@@ -13,6 +13,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import java.util.List;
 
@@ -20,19 +22,15 @@ import java.util.List;
 @ComponentScan("lt.web")
 public class SchoolClassesController {
 
-//    @Autowired
-//    ITeacherService teacherService;
-//    @Autowired
-//    IUserService userService;
+
     @Autowired
     ISchoolClassesService schoolClassesService;
     @Autowired
     IChildrenService childrenService;
     @Autowired
     ITeacherService teacherService;
-//    @Autowired
-//    ISubjectService subjectService;
-//
+
+
     // ir /welcomemainpage ir / (tuscias) numeta i welcompage
     @RequestMapping(value = "/schoolClassesMain", method = RequestMethod.GET)
     public String welcome(Model model){
@@ -47,56 +45,37 @@ public class SchoolClassesController {
 
         return "schoolClassesMain";
     }
-//
-//    @RequestMapping(value = "/saveSchoolClass", method = RequestMethod.POST)
-//    public String saveAndFlushTeacher(@RequestParam ("name") String name
-//            , @RequestParam ("surname") String surname
-//            , @RequestParam ("phone") String phone
-//            , @RequestParam ("schoolClassesTitle") String schoolClassesTitle
-//            , @RequestParam ("schoolClassesId") int schoolClassesId
-//            , @RequestParam ("teacherId") int teacherId
-//            , @RequestParam ("userId") int userId
-//            , @RequestParam ("subjectName") String[] subjectName
-//            , @RequestParam ("subjectId") int[] subjectId){
-//        List<Subjects> subjectsList = new ArrayList<>();
-//        for(int i = 0; i < subjectId.length; i++){
-//            int ii = subjectService.setSubjectById(subjectName[i], teacherId, subjectId[i]);
-//            Subjects subjects = new Subjects(subjectId[i], subjectName[i]);
-//            subjectsList.add(subjects);
-//        }
-////        Teachers teachers = new Teachers(teacherId, name, surname, phone, subjectsList);
-//        schoolClassesService.setTitleById(schoolClassesTitle, teacherId, schoolClassesId);
-//        Teachers teachers = new Teachers(teacherId, name, surname, phone, subjectsList, userService.firstByUserId(userId));
-//        teacherService.saveTeacher(teachers);
-//        return "redirect:teacherMain";
-//    }
-//
-//    @RequestMapping(value = "/addTeacher", method = RequestMethod.POST)
-//    public String addTeacher(@RequestParam ("name") String name
-//            , @RequestParam ("surname") String surname
-//            , @RequestParam ("phone") String phone
-//            , @RequestParam ("schoolClassesTitle") String schoolClassesTitle
-//            , @RequestParam ("subjectName") String[] subjectName
-//            , @RequestParam ("email") String email
-//            , @RequestParam ("password") String password){
-//        Users users = userService.saveUser(new Users(email, password));
-//        Teachers teachers = new Teachers(name, surname, phone, users);
-//        Teachers teacher = teacherService.saveTeacher(teachers);
-//        List<Subjects> subjectsList = new ArrayList<>();
-//        for(int i = 0; i < subjectName.length; i++){
-//            Subjects subject = subjectService.save(subjectName[i], teacher);
-//            subjectsList.add(subject);
-//        }
-//        SchoolClasses schoolClasses = schoolClassesService.save(schoolClassesTitle, teacher);
-//        return "redirect:teacherMain";
-//    }
-//
-//    @RequestMapping(value = "/deleteTeacher", method = RequestMethod.POST)
-//    @ResponseBody
-//    public String deleteTeacher(@RequestParam("teacherId") int teacherId){
-////       schoolClassesService.deleteSchoolclassesByTeacherId(teacherId);
-//        userService.deleteUserByTeacherId(teacherId);
-////       teacherService.deleteTeacher(teacherId);
-//        return "Istryne Teacher su jo user, klase, subjects";
-//    }
+
+    @RequestMapping(value = "/updateSchoolClass", method = RequestMethod.POST)
+    public String saveAndFlushTeacher(@RequestParam("schoolClassesId") int schoolClassesId
+            , @RequestParam ("title") String schoolClassesTitle
+            , @RequestParam("childId") int[] childId
+            , @RequestParam ("teacherId") int teacherId){
+        SchoolClasses schoolClassByTeacherId = schoolClassesService.findSchoolClassByTeacherId(teacherId);
+        Teachers teacher = new Teachers(teacherId);
+        if(schoolClassByTeacherId != null){
+            schoolClassByTeacherId.setTeacher(null);
+            schoolClassesService.updateSchoolClass(schoolClassByTeacherId);
+        } else if(teacherId == 0){
+            teacher = null;
+        }
+        schoolClassesService.updateSchoolClass(new SchoolClasses(schoolClassesId, schoolClassesTitle, teacher));
+        for (Integer id: childId) {
+            childrenService.updateChildrenByClassId(schoolClassesId, id);
+        }
+        return "redirect:schoolClassesMain";
+    }
+
+    @RequestMapping(value = "/addClasses", method = RequestMethod.POST)
+    public String addTeacher(@RequestParam ("title") String schoolClassesTitle){
+        schoolClassesService.saveClassesTitle(schoolClassesTitle);
+        return "redirect:schoolClassesMain";
+    }
+
+    @RequestMapping(value = "/deleteClass", method = RequestMethod.POST)
+    @ResponseBody
+    public String deleteClass(@RequestParam("classId") int classId){
+        schoolClassesService.deleteSchoolclassesByClassId(classId);
+        return "Istryne Klase su jo user, klase, subjects";
+    }
 }

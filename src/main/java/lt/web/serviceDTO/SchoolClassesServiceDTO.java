@@ -20,9 +20,9 @@ public class SchoolClassesServiceDTO {
 
     public SchoolClassesDTO convertSchoolClassesDTO(SchoolClasses schoolClass) {
 
-//        if(schoolClass == null){
-//            return null;
-//        }
+        if(schoolClass == null){
+            return null;
+        }
 
         List<ChildrenDTO> childrenListDTO = childrenServiceDTO.convertChildrenDTO(schoolClass.getChildrenList());
 

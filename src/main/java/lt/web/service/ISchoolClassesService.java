@@ -11,4 +11,8 @@ public interface ISchoolClassesService {
     SchoolClasses save(String title, Teachers teachers);
     void deleteSchoolclassesByTeacherId(int id);
     List<SchoolClasses> getSchoolChlassesList();
+    SchoolClasses updateSchoolClass(SchoolClasses schoolClasses);
+    SchoolClasses findSchoolClassByTeacherId(int teacherId);
+    SchoolClasses saveClassesTitle(String title);
+    void deleteSchoolclassesByClassId(int classId);
 }

@@ -34,4 +34,25 @@ public class SchoolClassesService implements ISchoolClassesService {
     public List<SchoolClasses> getSchoolChlassesList() {
         return schoolClassesRep.findAll();
     }
+
+    @Override
+    public SchoolClasses updateSchoolClass(SchoolClasses schoolClasses) {
+        return schoolClassesRep.saveAndFlush(schoolClasses);
+    }
+
+    @Override
+    public SchoolClasses findSchoolClassByTeacherId(int teacherId) {
+        return schoolClassesRep.findByTeacher_TeacherId(teacherId);
+    }
+
+    @Override
+    public SchoolClasses saveClassesTitle(String title) {
+        return schoolClassesRep.saveAndFlush(new SchoolClasses(title));
+    }
+
+    @Override
+    public void deleteSchoolclassesByClassId(int classId) {
+        schoolClassesRep.delete(new SchoolClasses(classId));
+    }
+
 }
