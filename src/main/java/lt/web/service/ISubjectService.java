@@ -11,5 +11,11 @@ public interface ISubjectService {
     List<Subjects> findAll();
     Subjects save(String subjectName, Teachers teacher);
     List<Integer> getTeachersListBySubjectName(String subjectName);
-
+    void updateSubjectByTeacherId(int subjectId, String subjectName);
+    Subjects findBySubjectId(@Param("subjectId") int subjectId);
+    Subjects findSubjectsByTeacher_TeacherIdAndSubjectName(@Param("teacherId") int teacherId, @Param("subjectName") String subjectName);
+    void deleteSubjectsBySubjectName(@Param("subjectName") String subjectName);
+    List<Subjects> findBySubjectName(String subjectName);
+    void saveSubjectWithSubjectNameOnly(String subjectName);
+    void deleteSubjectsBySubjectId(int subjectId);
 }

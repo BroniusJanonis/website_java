@@ -21,5 +21,11 @@ public interface SubjectsRep extends JpaRepository<Subjects, Long> {
     @Query(nativeQuery = true, value = "SELECT teacher_id FROM webteachers WHERE teacher_id IN (SELECT teacher_id FROM websubjects WHERE subject_name= :subjectName)")
     @Transactional
     List<Integer> getTeachersListBySubjectName(@Param("subjectName") String subjectName);
-
+    Subjects findBySubjectId(@Param("subjectId") int subjectId);
+    Subjects findSubjectsByTeacher_TeacherIdAndSubjectName(@Param("teacherId") int teacherId, @Param("subjectName") String subjectName);
+    List<Subjects> findBySubjectName(String subjectName);
+    @Modifying
+    @Query(nativeQuery = true, value = "DELETE FROM websubjects WHERE subject_name= :subjectName")
+    @Transactional
+    void deleteSubjectsBySubjectName(@Param("subjectName") String subjectName);
 }

@@ -12,6 +12,10 @@ public class Subjects {
     public Subjects() {
     }
 
+    public Subjects(int subjectId) {
+        this.subjectId = subjectId;
+    }
+
     public Subjects(String subjectName) {
         this.subjectName = subjectName;
     }
@@ -22,6 +26,12 @@ public class Subjects {
     }
 
     public Subjects(String subjectName, Teachers teacher) {
+        this.subjectName = subjectName;
+        this.teacher = teacher;
+    }
+
+    public Subjects(int subjectId, String subjectName, Teachers teacher) {
+        this.subjectId = subjectId;
         this.subjectName = subjectName;
         this.teacher = teacher;
     }

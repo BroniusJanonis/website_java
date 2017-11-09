@@ -49,6 +49,7 @@
                             <c:forEach var="teacher" items="${subject.getTeachersList()}">
                                 <label style="text-align:center;" class="" hidden>${teacher.getTeacherId()}</label>
                                 <label style="text-align:center;" class="">${teacher.getName()} ${teacher.getSurname()}</label>
+                                <br>
                             </c:forEach>
                         </td>
                         <td style="text-align:center;" class="">
@@ -56,7 +57,7 @@
                             <button class="btn btn-success updateSubject" data-toggle="modal" data-target="#myModal" contenteditable="false">Update</button>
                         </td>
                         <td style="text-align:center;" class="">
-                            <button class="btn btn-success" id="delete${theCount.index}" onclick="deleteClass(${subject.getSubjectId()})">Delete</button>
+                            <button class="btn btn-success" id="delete${theCount.index}" onclick="deleteSubject(${subject.getSubjectId()})">Delete</button>
                         </td>
                     </tr>
                 </c:forEach>
@@ -148,15 +149,13 @@
             }else if(columnHeader == "teacher") {
                 formGroup.append('<label>' + columnHeader + '</label>');
                 var teacherGroup = $('<select name="teacherId" multiple/>').appendTo(formGroup);
-                // choices teacher by Default
-                var teacherId = columnValues[i-1];
-                if(teacherId == ""){
-                    teacherId = 0;
-                }
-                teacherGroup.append('<option value="' + teacherId + '">' + "Pasirinktas mokytojas " + columnValues[i] + '</option>');
+                var teacherId = 0;
+                teacherGroup.append('<option value="'+teacherId+'">'+"Nepasirinktas mokytojas"+'</option>');
                 <c:forEach var="teacher" items="${allTeachers}">
                 teacherGroup.append('<option value="' + "${teacher.getTeacherId()}" + '">' + "${teacher.getName()} ${teacher.getSurname()}" + '</option>');
                 </c:forEach>
+            }else{
+                formGroup.append('<input class="form-control" name="' + columnHeader + '" value="' + columnValues[i] + '" hidden/>');
             }
             modalForm.append(formGroup);
         });

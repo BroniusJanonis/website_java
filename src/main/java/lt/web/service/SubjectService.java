@@ -36,4 +36,39 @@ public class SubjectService implements ISubjectService{
         return subjectsRep.getTeachersListBySubjectName(subjectName);
     }
 
+    @Override
+    public void updateSubjectByTeacherId(int subjectId, String subjectName) {
+        subjectsRep.saveAndFlush(new Subjects(subjectId, subjectName));
+    }
+
+    @Override
+    public Subjects findBySubjectId(int subjectId) {
+        return subjectsRep.findBySubjectId(subjectId);
+    }
+
+    @Override
+    public Subjects findSubjectsByTeacher_TeacherIdAndSubjectName(int teacherId, String subjectName) {
+        return subjectsRep.findSubjectsByTeacher_TeacherIdAndSubjectName(teacherId, subjectName);
+    }
+
+    @Override
+    public void deleteSubjectsBySubjectName(String subjectName) {
+        subjectsRep.deleteSubjectsBySubjectName(subjectName);
+    }
+
+    @Override
+    public List<Subjects> findBySubjectName(String subjectName) {
+        return subjectsRep.findBySubjectName(subjectName);
+    }
+
+    @Override
+    public void saveSubjectWithSubjectNameOnly(String subjectName) {
+        subjectsRep.save(new Subjects(subjectName));
+    }
+
+    @Override
+    public void deleteSubjectsBySubjectId(int subjectId) {
+        subjectsRep.delete(new Subjects(subjectId));
+    }
+
 }
