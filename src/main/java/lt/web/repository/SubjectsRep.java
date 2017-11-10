@@ -28,4 +28,9 @@ public interface SubjectsRep extends JpaRepository<Subjects, Long> {
     @Query(nativeQuery = true, value = "DELETE FROM websubjects WHERE subject_name= :subjectName")
     @Transactional
     void deleteSubjectsBySubjectName(@Param("subjectName") String subjectName);
+    List<Subjects> findSubjectsByTeacher_TeacherId(@Param("teacherId") int teacherId);
+    @Modifying
+    @Transactional
+    @Query(nativeQuery = true, value = "DELETE FROM websubjects where teacher_id= :teacherId")
+    void deleteSubjectsByTeacher_TeacherId(@Param("teacherId") int teacherId);
 }

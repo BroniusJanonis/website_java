@@ -42,7 +42,7 @@ public class SchoolClassesService implements ISchoolClassesService {
 
     @Override
     public SchoolClasses findSchoolClassByTeacherId(int teacherId) {
-        return schoolClassesRep.findByTeacher_TeacherId(teacherId);
+        return schoolClassesRep.findFirstByTeacher_TeacherId(teacherId);
     }
 
     @Override
@@ -53,6 +53,21 @@ public class SchoolClassesService implements ISchoolClassesService {
     @Override
     public void deleteSchoolclassesByClassId(int classId) {
         schoolClassesRep.delete(new SchoolClasses(classId));
+    }
+
+//    @Override
+//    public void setTeacherIdToNullWhereSchoolClassesIdIs(int schoolClassesId) {
+//        schoolClassesRep.setTeacherIdToNullWhereSchoolClassesIdIs(schoolClassesId);
+//    }
+
+    @Override
+    public void updateSchoolClassByTeacherIdAndSchoolClassId(int teacherId, int schoolClassId) {
+        schoolClassesRep.updateSchoolClassByTeacherId(teacherId, schoolClassId);
+    }
+
+    @Override
+    public SchoolClasses findSchoolClassByschoolClassesId(int schoolClassesId) {
+        return schoolClassesRep.findFirstBySchoolClassesId(schoolClassesId);
     }
 
 }

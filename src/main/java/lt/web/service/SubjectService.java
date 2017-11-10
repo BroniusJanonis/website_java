@@ -71,4 +71,14 @@ public class SubjectService implements ISubjectService{
         subjectsRep.delete(new Subjects(subjectId));
     }
 
+    @Override
+    public List<Subjects> findSubjectsByTeacherId(int teacherId) {
+        return subjectsRep.findSubjectsByTeacher_TeacherId(teacherId);
+    }
+
+    @Override
+    public void deleteSubjectsByTeacherId(int teacherId) {
+        subjectsRep.deleteSubjectsByTeacher_TeacherId(teacherId);
+    }
+
 }

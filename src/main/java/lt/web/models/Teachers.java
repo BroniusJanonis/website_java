@@ -62,6 +62,14 @@ public class Teachers {
         this.user = user;
     }
 
+    public Teachers(int teacherId, String name, String surname, String phone, Users user) {
+        this.teacherId = teacherId;
+        this.name = name;
+        this.surname = surname;
+        this.phone = phone;
+        this.user = user;
+    }
+
     public Teachers(int teacherId, String name, String surname, String phone, List<Subjects> subject, SchoolClasses schoolClasses, Users user) {
         this.teacherId = teacherId;
         this.name = name;

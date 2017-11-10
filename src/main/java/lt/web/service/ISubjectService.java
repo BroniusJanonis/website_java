@@ -18,4 +18,6 @@ public interface ISubjectService {
     List<Subjects> findBySubjectName(String subjectName);
     void saveSubjectWithSubjectNameOnly(String subjectName);
     void deleteSubjectsBySubjectId(int subjectId);
+    List<Subjects> findSubjectsByTeacherId(int teacherId);
+    void deleteSubjectsByTeacherId(int teacherId);
 }

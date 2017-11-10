@@ -9,8 +9,8 @@
     </database>
     <schema id="3" parent="2" name="public">
       <ObjectId>2200</ObjectId>
-      <IntrospectionTimestamp>2017-11-08.13:25:12.592</IntrospectionTimestamp>
-      <IntrospectionStateNumber>6802</IntrospectionStateNumber>
+      <IntrospectionTimestamp>2017-11-10.14:31:18.811</IntrospectionTimestamp>
+      <IntrospectionStateNumber>6946</IntrospectionStateNumber>
       <Current>1</Current>
       <Visible>1</Visible>
     </schema>
@@ -439,19 +439,19 @@
     </table>
     <table id="95" parent="3" name="webschoolclasses">
       <ObjectId>20546</ObjectId>
-      <StateNumber>6794</StateNumber>
+      <StateNumber>6897</StateNumber>
     </table>
     <table id="96" parent="3" name="websubjects">
       <ObjectId>20554</ObjectId>
-      <StateNumber>6802</StateNumber>
+      <StateNumber>6946</StateNumber>
     </table>
     <table id="97" parent="3" name="webteachers">
       <ObjectId>20562</ObjectId>
-      <StateNumber>6802</StateNumber>
+      <StateNumber>6946</StateNumber>
     </table>
     <table id="98" parent="3" name="webusers">
       <ObjectId>20570</ObjectId>
-      <StateNumber>6606</StateNumber>
+      <StateNumber>6875</StateNumber>
     </table>
     <column id="99" parent="43" name="id">
       <Position>1</Position>
@@ -2715,7 +2715,7 @@ roleauth15_id</ColNames>
       <UnderlyingIndexName>uk_7pwlb6p2d7bqtwnw2jt4in1jd</UnderlyingIndexName>
     </key>
     <foreign-key id="496" parent="95" name="fkpuvcwlcffsljgn2kyiemiw7f0">
-      <ObjectId>20664</ObjectId>
+      <ObjectId>20704</ObjectId>
       <ColNames>teacher_id</ColNames>
       <RefTableId>20562</RefTableId>
       <RefColPositions>1</RefColPositions>
@@ -2754,7 +2754,7 @@ roleauth15_id</ColNames>
       <Primary>1</Primary>
     </key>
     <foreign-key id="502" parent="96" name="fko398nn2oimf7mivno0qwkdj0h">
-      <ObjectId>20679</ObjectId>
+      <ObjectId>20714</ObjectId>
       <ColNames>teacher_id</ColNames>
       <RefTableId>20562</RefTableId>
       <RefColPositions>1</RefColPositions>
@@ -2805,7 +2805,7 @@ roleauth15_id</ColNames>
       <Primary>1</Primary>
     </key>
     <foreign-key id="510" parent="97" name="fkmxuqvgjk4wk4m1yxxxab50sts">
-      <ObjectId>20639</ObjectId>
+      <ObjectId>20694</ObjectId>
       <ColNames>user_id</ColNames>
       <RefTableId>20570</RefTableId>
       <RefColPositions>1</RefColPositions>
@@ -2813,7 +2813,6 @@ roleauth15_id</ColNames>
       <RefKeyName>webusers_pkey</RefKeyName>
       <RefColNames>user_id</RefColNames>
       <OnDelete>cascade</OnDelete>
-      <OnUpdate>cascade</OnUpdate>
     </foreign-key>
     <column id="511" parent="98" name="user_id">
       <Position>1</Position>

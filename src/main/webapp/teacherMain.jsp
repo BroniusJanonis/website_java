@@ -175,7 +175,7 @@
         });
 //        console.log(subjectIds);
         var modalBody = $('<div id="modalContent"></div>');
-        var modalForm = $('<form role="form" name="modalForm" action="saveAndFlushTeacher" method="post"></form>');
+        var modalForm = $('<form role="form" name="modalForm" action="updateTeacher" method="post"></form>');
         $.each(columnHeadings, function(i, columnHeader) {
 //            console.log(columnHeader);
             var formGroup = $('<div class="form-group"></div>');
@@ -186,17 +186,32 @@
 //                var columnSubjectValues = $(this).parent().siblings().map(function() {
 //                    return $(this).text();
 //                }).get();
-                var subjectGroup = $('<div class="subject-group"></div>').appendTo(formGroup);
-                subjectGroup.append('<label>' + columnHeader + '</label>');
-                $.each(subjectTitles, function (i, columnSubject) {
-                    subjectGroup.append('<input class="form-control" name="subjectName" value="' + subjectTitles[i] + '" />');
-                    subjectGroup.append('<input class="form-control" name="subjectId" value="' + subjectIds[i] + '" hidden />');
-                });
-            } else if(columnHeader == "Update" || columnHeader == "Delete"){
+
+//                var subjectGroup = $('<div class="subject-group"></div>').appendTo(formGroup);
+//                subjectGroup.append('<label>' + columnHeader + '</label>');
+//                $.each(subjectTitles, function (i, columnSubject) {
+//                    subjectGroup.append('<input class="form-control" name="subjectName" value="' + subjectTitles[i] + '" />');
+//                    subjectGroup.append('<input class="form-control" name="subjectId" value="' + subjectIds[i] + '" hidden />');
+//                });
+
+                formGroup.append('<label>' + columnHeader + '</label>');
+                var subjectGroup = $('<select name="subjectName" multiple/>').appendTo(formGroup);
+                subjectGroup.append('<option value="">' + "Nepasirinktas dalykas" + '</option>');
+                <c:forEach var="subject" items="${subjectSet}">
+                subjectGroup.append('<option value="' + "${subject}" + '">' + "${subject}" + '</option>');
+                </c:forEach>
+            } else if(columnHeader == "Update" || columnHeader == "Delete" || columnHeader == "schoolClassesId"){
                 return;
-            } else if (columnHeader == "teacherId" || columnHeader == "schoolClassesId" || columnHeader == "userId" ){
+            } else if (columnHeader == "teacherId" || columnHeader == "userId"){
                 formGroup.append('<input class="form-control" name="' + columnHeader + '" value="' + columnValues[i] + '" hidden/>');
-            } else {
+            } else if(columnHeader == "schoolClassesTitle"){
+                formGroup.append('<label>' + columnHeader + '</label>');
+                var classesGroup = $('<select name="schoolClassesId"/>').appendTo(formGroup);
+                classesGroup.append('<option value="' + 0 + '">' + "Nepaasirinkta klase " + '</option>');
+                <c:forEach var="classes" items="${schoolChlassesList}">
+                classesGroup.append('<option value="' + "${classes.getSchoolClassesId()}" + '">' + "${classes.getTitle()}" + '</option>');
+                </c:forEach>
+            }else {
                 formGroup.append('<label>' + columnHeader + '</label>');
                 formGroup.append('<input class="form-control" name="' + columnHeader + '" value="' + columnValues[i] + '" />');
             }
@@ -224,18 +239,28 @@
         formGroup.append('<input class="form-control" name="surname"/>');
         formGroup.append('<label> Phone </label>');
         formGroup.append('<input class="form-control" name="phone"/>');
-        formGroup.append('<label> SchoolClassesTitle </label>');
-        formGroup.append('<input class="form-control" name="schoolClassesTitle"/>');
         formGroup.append('<label> Email </label>');
         formGroup.append('<input class="form-control" name="email"/>');
         formGroup.append('<label> Password </label>');
         formGroup.append('<input class="form-control" name="password"/>');
-        formGroup.append('<label> Subject </label>');
-        var subjectGroup = $('<div class="subject-group"></div>').appendTo(formGroup);
-        <c:forEach var="subjectName" items="${subjectSet}">
-        <%--console.log("${subjectName}");--%>
-            subjectGroup.append('<input type="checkbox" class="form-control" name="subjectName" value="' + "${subjectName}" + '"/>' + "${subjectName}");
+        formGroup.append('<label> SchoolClass </label>');
+        var classesGroup = $('<select name="schoolClassesId"/>').appendTo(formGroup);
+        classesGroup.append('<option value="' + 0 + '">' + "Nepasirinkta klase " + '</option>');
+        <c:forEach var="classes" items="${schoolChlassesList}">
+        classesGroup.append('<option value="' + "${classes.getSchoolClassesId()}" + '">' + "${classes.getTitle()}" + '</option>');
         </c:forEach>
+        formGroup.append('<label> Subject </label>');
+        var subjectGroup = $('<select name="subjectId" multiple/>').appendTo(formGroup);
+        subjectGroup.append('<option value="">' + "Nepasirinktas dalykas" + '</option>');
+        <c:forEach var="subject" items="${subjectSet}">
+        subjectGroup.append('<option value="' + "${subject}" + '">' + "${subject}" + '</option>');
+        </c:forEach>
+
+        <%--<c:forEach var="subjectName" items="${subjectSet}">--%>
+        <%--&lt;%&ndash;console.log("${subjectName}");&ndash;%&gt;--%>
+            <%--subjectGroup.append('<input type="checkbox" class="form-control" name="subjectName" value="' + "${subjectName}" + '"/>' + "${subjectName}");--%>
+        <%--</c:forEach>--%>
+
         modalForm.append(formGroup);
         modalBody.append(modalForm);
         $('.modal-body').html(modalBody);

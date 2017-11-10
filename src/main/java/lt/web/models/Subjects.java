@@ -20,6 +20,10 @@ public class Subjects {
         this.subjectName = subjectName;
     }
 
+    public Subjects(Teachers teacher) {
+        this.teacher = teacher;
+    }
+
     public Subjects(int subjectId, String subjectName) {
         this.subjectId = subjectId;
         this.subjectName = subjectName;

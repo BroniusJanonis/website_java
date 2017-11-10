@@ -15,4 +15,7 @@ public interface ISchoolClassesService {
     SchoolClasses findSchoolClassByTeacherId(int teacherId);
     SchoolClasses saveClassesTitle(String title);
     void deleteSchoolclassesByClassId(int classId);
+//    void setTeacherIdToNullWhereSchoolClassesIdIs(int schoolClassesId);
+    void updateSchoolClassByTeacherIdAndSchoolClassId(int teacherId, int schoolClassId);
+    SchoolClasses findSchoolClassByschoolClassesId(int schoolClassesId);
 }

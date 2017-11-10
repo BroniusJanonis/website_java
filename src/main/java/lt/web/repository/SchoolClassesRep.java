@@ -24,5 +24,17 @@ public interface SchoolClassesRep extends JpaRepository<SchoolClasses, Long>{
 //    void deleteSchoolClassesByTeacher_TeacherId(@Param("teacherId") int teacherId);
 
     void deleteSchoolClassesByTeacher_TeacherId(int teacherId);
-    SchoolClasses findByTeacher_TeacherId(int teacherId);
+    SchoolClasses findFirstByTeacher_TeacherId(int teacherId);
+
+//    @Modifying
+//    @Query(nativeQuery = true, name = "UPDATE webschoolclasses SET teacher_id= :teacher_id WHERE school_classes_id= :schoolClassesId")
+//    @Transactional
+//    void setTeacherIdToNullWhereSchoolClassesIdIs(@Param("schoolClassesId") int schoolClassesId);
+
+    @Modifying
+    @Query("update SchoolClasses c set c.teacher.teacherId = :teacherId where c.schoolClassesId = :schoolClassesId")
+    @Transactional
+    void updateSchoolClassByTeacherId(@Param("teacherId") int teacherId, @Param("schoolClassesId") int schoolClassesId);
+
+    SchoolClasses findFirstBySchoolClassesId(@Param("schoolClassesId") int schoolClassesId);
 }
