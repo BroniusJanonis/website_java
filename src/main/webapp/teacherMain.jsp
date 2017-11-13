@@ -250,7 +250,7 @@
         classesGroup.append('<option value="' + "${classes.getSchoolClassesId()}" + '">' + "${classes.getTitle()}" + '</option>');
         </c:forEach>
         formGroup.append('<label> Subject </label>');
-        var subjectGroup = $('<select name="subjectId" multiple/>').appendTo(formGroup);
+        var subjectGroup = $('<select name="subjectName" multiple/>').appendTo(formGroup);
         subjectGroup.append('<option value="">' + "Nepasirinktas dalykas" + '</option>');
         <c:forEach var="subject" items="${subjectSet}">
         subjectGroup.append('<option value="' + "${subject}" + '">' + "${subject}" + '</option>');
