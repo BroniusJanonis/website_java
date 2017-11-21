@@ -32,6 +32,13 @@ public class TeacherController {
     @Autowired
     ISubjectService subjectService;
 
+    public TeacherController(ITeacherService teacherService, IUserService userService, ISchoolClassesService schoolClassesService, ISubjectService subjectService) {
+        this.teacherService = teacherService;
+        this.userService = userService;
+        this.schoolClassesService = schoolClassesService;
+        this.subjectService = subjectService;
+    }
+
     // ir /welcomemainpage ir / (tuscias) numeta i welcompage
     @RequestMapping(value = "/teacherMain", method = RequestMethod.GET)
     public String welcome(Model model) throws JsonProcessingException {
