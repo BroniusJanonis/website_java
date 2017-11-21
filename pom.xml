@@ -53,6 +53,13 @@
             <artifactId>spring-boot-starter-security</artifactId>
         </dependency>
 
+        <!--Spring Test-->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-test</artifactId>
+            <scope>test</scope>
+        </dependency>
+
         <!--Postgresql-->
         <dependency>
             <groupId>org.postgresql</groupId>

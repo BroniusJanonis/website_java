@@ -16,6 +16,10 @@ public class TeacherService implements ITeacherService{
     @Autowired
     private TeachersServiceDTO teachersServiceDTO;
 
+    public TeacherService(TeachersRep teachersRep) {
+        this.teachersRep = teachersRep;
+    }
+
     public List<TeachersDTO> getAllTeachers(){
         List<Teachers> teachersList = teachersRep.findAll();
         List<TeachersDTO> teachersDTOList = teachersServiceDTO.teacherDTOList(teachersList);
