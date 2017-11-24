@@ -1,12 +1,11 @@
 package lt.web.controler;
 
 import lt.web.modelDTO.TeachersDTO;
-import lt.web.models.Children;
-import lt.web.models.SchoolClasses;
-import lt.web.models.Teachers;
+import lt.web.models.*;
 import lt.web.service.IChildrenService;
 import lt.web.service.ISchoolClassesService;
 import lt.web.service.ITeacherService;
+import org.hamcrest.Matchers;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -26,12 +25,14 @@ import org.springframework.web.servlet.view.InternalResourceViewResolver;
 import java.util.ArrayList;
 import java.util.List;
 
-import static org.hamcrest.Matchers.hasSize;
-import static org.hamcrest.Matchers.instanceOf;
+import static org.hamcrest.Matchers.*;
 import static org.junit.Assert.*;
 import static org.mockito.Matchers.anyList;
+import static org.mockito.Matchers.matches;
+import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
+import static org.springframework.test.web.client.match.MockRestRequestMatchers.jsonPath;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.model;
@@ -69,6 +70,7 @@ public class SchoolClassesControllerTest {
         mockMvc = MockMvcBuilders.standaloneSetup(schoolClassesController).setViewResolvers(viewResolver).build();
     }
 
+    //        Reikia pabaigti param ir issikviest per modelius bei sutikrint
     @Test
     public void welcome() throws Exception {
         // mockinis duomuo, kuris bus naudojamas, kai issikviesiu servisa
@@ -80,7 +82,14 @@ public class SchoolClassesControllerTest {
 //        List<SchoolClasses> allClasses = schoolClassesService.getSchoolChlassesList();
 
         List<Children> childrenList = new ArrayList<>();
-        childrenList.add(new Children());
+        int childId = 1;
+        String childName = "childName";
+        String childSurname = "childSurname";
+        Fosters fosters = new Fosters(1);
+        SchoolClasses schoolClasses = new SchoolClasses(1);
+        Users users = new Users(1);
+        Children children = new Children(childId, childName, childSurname, fosters, schoolClasses, users);
+        childrenList.add(children);
         when(childrenService.getAllChildren()).thenReturn(childrenList);
 //        List<Children> allChildren = childrenService.getAllChildren();
 
@@ -98,10 +107,17 @@ public class SchoolClassesControllerTest {
                 // tikrinam model atributo pagrazintas listas yra ne nulinis/ turi size
                 .andExpect(model().attribute("allClasses", hasSize(1)))
                 .andExpect(model().attribute("allChildren", hasSize(1)))
+//                .andExpect(model().attribute("allChildren", hasItemInArray(hasProperty("childName", equalToIgnoringCase(childName)))))
+//                .andExpect(model().attribute("allChildren", hasProperty("allChildren[0]", is(children))))
+//                .andExpect(model().attribute("allChildren", Matchers.hasItemInArray(Matchers.<Children> hasProperty("childName", Matchers.equalToIgnoringCase(childName)))))
+//                .andExpect(model().attribute("allChildren", hasProperty("allChildren", hasItem(hasProperty("childName", Matchers.equalTo(true))))))
+                .andExpect(jsonPath("$[0].childId", is(1)))
                 .andExpect(model().attribute("allTeachers", hasSize(1)));
 
-        Reikia pabaigti param ir issikviest per modelius bei sutikrint
-
+        // Mockito verify tikrinam, kad nebutu servisas naudotas daugiau nei po karta
+        verify(schoolClassesService, times(1)).getSchoolChlassesList();
+        verify(childrenService, times(1)).getAllChildren();
+        verify(teacherService, times(1)).getAllTeachers();
     }
 
     @Test
@@ -125,22 +141,15 @@ public class SchoolClassesControllerTest {
         schoolClasses.setChildrenList(childrenList);
 
         when(schoolClassesService.findSchoolClassByTeacherId(teacherId)).thenReturn(schoolClasses);
-        SchoolClasses schoolClassByTeacherId = schoolClassesService.findSchoolClassByTeacherId(teacherId);
-        when(schoolClassesService.updateSchoolClass(schoolClassByTeacherId)).thenReturn(schoolClasses);
-        SchoolClasses schoolClasses1 = schoolClassesService.updateSchoolClass(schoolClassByTeacherId);
+//        SchoolClasses schoolClassByTeacherId = schoolClassesService.findSchoolClassByTeacherId(teacherId);
+        when(schoolClassesService.updateSchoolClass(schoolClasses)).thenReturn(schoolClasses);
+//        SchoolClasses schoolClasses1 = schoolClassesService.updateSchoolClass(schoolClassByTeacherId);
         when(schoolClassesService.updateSchoolClass(new SchoolClasses(schoolClassesId, schoolClassesTitle, teachers))).thenReturn(schoolClasses);
-        SchoolClasses schoolClasses2 = schoolClassesService.updateSchoolClass(new SchoolClasses(schoolClassesId, schoolClassesTitle, teachers));
+//        SchoolClasses schoolClasses2 = schoolClassesService.updateSchoolClass(new SchoolClasses(schoolClassesId, schoolClassesTitle, teachers));
 
-        mockMvc.perform(post("/updateSchoolClass")
-                .param("schoolClassesId", "1")
-                .param("childId", new String[]{"1", "2"})
-                .param("teacherId", "1"))
-                .andExpect(status().isOk())
-                .andExpect(view().name("redirect:schoolClassesMain"))
-                .andExpect(status().is3xxRedirection());
-
-        verify(schoolClassByTeacherId, (VerificationMode) instanceOf(SchoolClasses.class));
-
+        mockMvc.perform(post("/updateSchoolClass?schoolClassesId=1&title=schoolClassesTitle&childId=1&childId=2&teacherId=1"))
+                .andExpect(status().is3xxRedirection())
+                .andExpect(view().name("redirect:schoolClassesMain"));
 
     }
 

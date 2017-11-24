@@ -48,7 +48,7 @@ public class SchoolClassesController {
 
     @RequestMapping(value = "/updateSchoolClass", method = RequestMethod.POST)
     public String saveAndFlushTeacher(@RequestParam("schoolClassesId") int schoolClassesId
-            , @RequestParam ("title") String schoolClassesTitle
+            , @RequestParam (value = "title") String schoolClassesTitle
             , @RequestParam("childId") int[] childId
             , @RequestParam ("teacherId") int teacherId){
         SchoolClasses schoolClassByTeacherId = schoolClassesService.findSchoolClassByTeacherId(teacherId);
