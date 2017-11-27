@@ -29,18 +29,12 @@ import static org.hamcrest.Matchers.*;
 import static org.junit.Assert.*;
 import static org.mockito.Matchers.anyList;
 import static org.mockito.Matchers.matches;
-import static org.mockito.Mockito.times;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 import static org.springframework.test.web.client.match.MockRestRequestMatchers.jsonPath;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.model;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.view;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
-@RunWith(SpringRunner.class)
-@SpringBootTest
 public class SchoolClassesControllerTest {
 
 
@@ -107,12 +101,21 @@ public class SchoolClassesControllerTest {
                 // tikrinam model atributo pagrazintas listas yra ne nulinis/ turi size
                 .andExpect(model().attribute("allClasses", hasSize(1)))
                 .andExpect(model().attribute("allChildren", hasSize(1)))
+                .andExpect(model().attribute("allTeachers", hasSize(1)))
+                // neveike sitie, bet zemiau pateikti jau veike (model().attribute( LISTA TIKRINTI )
 //                .andExpect(model().attribute("allChildren", hasItemInArray(hasProperty("childName", equalToIgnoringCase(childName)))))
 //                .andExpect(model().attribute("allChildren", hasProperty("allChildren[0]", is(children))))
 //                .andExpect(model().attribute("allChildren", Matchers.hasItemInArray(Matchers.<Children> hasProperty("childName", Matchers.equalToIgnoringCase(childName)))))
 //                .andExpect(model().attribute("allChildren", hasProperty("allChildren", hasItem(hasProperty("childName", Matchers.equalTo(true))))))
-                .andExpect(jsonPath("$[0].childId", is(1)))
-                .andExpect(model().attribute("allTeachers", hasSize(1)));
+//                .andExpect(jsonPath("$[0].childId", is(1)))
+                .andExpect(model().attribute("allChildren", is(childrenList)))
+                .andExpect(model().attribute("allChildren", hasItems(
+                        allOf(
+                                hasProperty("childId", is(1)),
+                                hasProperty("name", is(childName)),
+                                hasProperty("surname", is(childSurname))
+                        )
+                )));
 
         // Mockito verify tikrinam, kad nebutu servisas naudotas daugiau nei po karta
         verify(schoolClassesService, times(1)).getSchoolChlassesList();
@@ -155,10 +158,32 @@ public class SchoolClassesControllerTest {
 
     @Test
     public void addTeacher() throws Exception {
+        String schoolClassesTitle = "title";
+        when(schoolClassesService.saveClassesTitle(schoolClassesTitle)).thenReturn(new SchoolClasses());
+
+        mockMvc.perform(post("/addClasses?title=title"))
+                .andExpect(status().is3xxRedirection())
+                .andExpect(view().name("redirect:schoolClassesMain"));
+
+        // ar buvo panaudotas servisas tik viena karta
+        verify(schoolClassesService, times(1)).saveClassesTitle(schoolClassesTitle);
+
+        // ar gautas rezultatas bus SchoolClass duomenu tipo
+        assertTrue(schoolClassesService.saveClassesTitle(schoolClassesTitle) instanceof SchoolClasses);
     }
 
     @Test
     public void deleteClass() throws Exception {
+        int classId = 1;
+
+        mockMvc.perform(post("/deleteClass?classId=1"))
+                .andExpect(status().isOk());
+
+        // patikrinam ne tik, kad ar panaudotas schoolClassesService viena karta, bet ir metodas, kuriame pasetiname "ClassId" turi atitikti su tuo, kuri pasetinam per Url
+        verify(schoolClassesService, times(1)).deleteSchoolclassesByClassId(classId);
+
+        // tikrinam return of method
+        assertEquals("Istryne Klase su jo user, klase, subjects", schoolClassesController.deleteClass(classId));
     }
 
 }

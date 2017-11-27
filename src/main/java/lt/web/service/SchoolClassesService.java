@@ -14,6 +14,10 @@ public class SchoolClassesService implements ISchoolClassesService {
     @Autowired
     private SchoolClassesRep schoolClassesRep;
 
+    public SchoolClassesService(SchoolClassesRep schoolClassesRep) {
+        this.schoolClassesRep = schoolClassesRep;
+    }
+
     @Override
     public int setTitleById(String schoolClassesTitle, int teacherId, int schoolClassesId) {
         int i = schoolClassesRep.setTitleById(schoolClassesTitle, teacherId, schoolClassesId);
@@ -47,7 +51,8 @@ public class SchoolClassesService implements ISchoolClassesService {
 
     @Override
     public SchoolClasses saveClassesTitle(String title) {
-        return schoolClassesRep.saveAndFlush(new SchoolClasses(title));
+        SchoolClasses schoolClasses = new SchoolClasses(title);
+        return schoolClassesRep.saveAndFlush(schoolClasses);
     }
 
     @Override
