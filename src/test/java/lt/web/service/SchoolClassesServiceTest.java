@@ -110,24 +110,41 @@ public class SchoolClassesServiceTest {
         SchoolClasses schoolClasses = new SchoolClasses();
         schoolClasses.setTitle(title);
 
-//        when(schoolClassesRep.saveAndFlush(new SchoolClasses(title))).thenReturn(schoolClasses);
-        doReturn(schoolClasses).when(schoolClassesRep).saveAndFlush(new SchoolClasses(title));
+        when(schoolClassesRep.saveAndFlush(any(SchoolClasses.class))).thenReturn(schoolClasses);
+//        doReturn(schoolClasses).when(schoolClassesRep).saveAndFlush(new SchoolClasses(title));
 //        when(schoolClassesService.saveClassesTitle(title)).thenReturn(schoolClasses);
         assertEquals(schoolClasses, schoolClassesService.saveClassesTitle(title));
 
-        Neveikia sitas
     }
 
     @Test
     public void deleteSchoolclassesByClassId() throws Exception {
+        SchoolClasses schoolClasses = new SchoolClasses();
+        int schoolClassId = 1 ;
+        schoolClasses.setSchoolClassesId(schoolClassId);
+
+        schoolClassesRep.delete(schoolClasses);
+        verify(schoolClassesRep, times(1)).delete(schoolClasses);
     }
 
     @Test
     public void updateSchoolClassByTeacherIdAndSchoolClassId() throws Exception {
+        int teacherId = 1;
+        int schoolClassId = 1;
+        schoolClassesRep.updateSchoolClassByTeacherId(teacherId, schoolClassId);
+        verify(schoolClassesRep, times(1)).updateSchoolClassByTeacherId(teacherId, schoolClassId);
     }
 
     @Test
     public void findSchoolClassByschoolClassesId() throws Exception {
+
+        int schoolClassesId = 1;
+        SchoolClasses schoolClasses = new SchoolClasses();
+        schoolClasses.setSchoolClassesId(schoolClassesId);
+        when(schoolClassesRep.findFirstBySchoolClassesId(schoolClassesId)).thenReturn(schoolClasses);
+
+        assertEquals(schoolClasses, schoolClassesService.findSchoolClassByschoolClassesId(schoolClassesId));
+
     }
 
 }
