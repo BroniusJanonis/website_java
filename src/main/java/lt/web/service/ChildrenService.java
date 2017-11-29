@@ -14,6 +14,10 @@ public class ChildrenService implements IChildrenService {
     @Autowired
     ChildrenRep childrenRep;
 
+    public ChildrenService(ChildrenRep childrenRep) {
+        this.childrenRep = childrenRep;
+    }
+
     @Override
     public List<Children> getAllChildren() {
         List<Children> childrenList = childrenRep.findAll();

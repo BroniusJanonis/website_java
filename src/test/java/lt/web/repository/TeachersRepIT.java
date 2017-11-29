@@ -31,14 +31,14 @@ public class TeachersRepIT {
     @Test
     public void findAll() throws Exception {
         List<Teachers> teachersRepAll = teachersRep.findAll();
-        assertEquals(teachersRepAll.get(0).getName(), "test");
+        assertEquals(teachersRepAll.get(0).getName(), "TeacherName4");
     }
 
     @Test
     public void findByTeacherId() throws Exception {
-        int teacherId = 1;
+        int teacherId = 11;
         Teachers byTeacherId = teachersRep.findByTeacherId(teacherId);
-        assertEquals(byTeacherId.getName(), "test");
+        assertEquals(byTeacherId.getName(), "TeacherName4");
         // nereikia sio, nes jis visada bus lygus
 //        assertTrue(byTeacherId instanceof Teachers);
         assertTrue(byTeacherId != null);

@@ -17,21 +17,22 @@ public interface ChildrenRep extends JpaRepository<Children, Long>{
 //    Postgresql select: > update webchildren set name = 'name', surname = 'surname', foster_id = 1, school_classes_id = 3, user_id = 2  where child_id = 2
     @Transactional
 //    update websubjects set subject_name = 'subjectName1', teacher_id = 5 where subject_id = 2
-    void updateChild(@Param("name") String name, @Param("surname") String surname , @Param("fosterId") int fosterId, @Param("schoolClassesId") int schoolClassesId, @Param("userId") int userId, @Param("childId") int childId);
+    int updateChild(@Param("name") String name, @Param("surname") String surname , @Param("fosterId") int fosterId, @Param("schoolClassesId") int schoolClassesId, @Param("userId") int userId, @Param("childId") int childId);
+
     @Modifying
 //    insert into webchildren (name, surname, foster_id, school_classes_id, user_id) values ('name1', 'surname1', 1, 3, 34)
     @Query(nativeQuery = true, value = "INSERT INTO webchildren (name, surname, foster_id, school_classes_id, user_id) VALUES (:name, :surname, :fosterId, :schoolClassesId, :userId)")
     @Transactional
-    void saveChild(@Param("name") String name, @Param("surname") String surname , @Param("fosterId") int fosterId, @Param("schoolClassesId") int schoolClassesId, @Param("userId") int userId);
+    int saveChild(@Param("name") String name, @Param("surname") String surname , @Param("fosterId") int fosterId, @Param("schoolClassesId") int schoolClassesId, @Param("userId") int userId);
 
     @Modifying
     @Query("update Children set foster.fosterId = :fosterId where childId = :childId")
 //    update webchildren set foster_id= 1 where child_id = 2
     @Transactional
-    void updateChildrensFoster(@Param("childId") int childId, @Param("fosterId") int fosterId);
+    int updateChildrensFoster(@Param("childId") int childId, @Param("fosterId") int fosterId);
 
     @Modifying
     @Query("update Children set schoolClasses.schoolClassesId = :schoolClassesId where childId = :childId")
     @Transactional
-    void updateChildrensClasses(@Param("schoolClassesId") int schoolClassesId, @Param("childId") int childId);
+    int updateChildrensClasses(@Param("schoolClassesId") int schoolClassesId, @Param("childId") int childId);
 }

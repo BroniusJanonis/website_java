@@ -23,7 +23,7 @@ public interface SchoolClassesRep extends JpaRepository<SchoolClasses, Long>{
 //    @Transactional
 //    void deleteSchoolClassesByTeacher_TeacherId(@Param("teacherId") int teacherId);
 
-    void deleteSchoolClassesByTeacher_TeacherId(int teacherId);
+    int deleteSchoolClassesByTeacher_TeacherId(int teacherId);
     SchoolClasses findFirstByTeacher_TeacherId(int teacherId);
 
 //    @Modifying
@@ -34,7 +34,7 @@ public interface SchoolClassesRep extends JpaRepository<SchoolClasses, Long>{
     @Modifying
     @Query("update SchoolClasses c set c.teacher.teacherId = :teacherId where c.schoolClassesId = :schoolClassesId")
     @Transactional
-    void updateSchoolClassByTeacherId(@Param("teacherId") int teacherId, @Param("schoolClassesId") int schoolClassesId);
+    int updateSchoolClassByTeacherId(@Param("teacherId") int teacherId, @Param("schoolClassesId") int schoolClassesId);
 
     SchoolClasses findFirstBySchoolClassesId(@Param("schoolClassesId") int schoolClassesId);
 }
