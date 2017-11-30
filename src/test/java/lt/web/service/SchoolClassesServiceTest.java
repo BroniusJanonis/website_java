@@ -46,10 +46,10 @@ public class SchoolClassesServiceTest {
         schoolClasses.setSchoolClassesId(schoolClassesId);
         schoolClasses.setTeacher(new Teachers());
 
-        when(schoolClassesRep.saveAndFlush(schoolClasses)).thenReturn(schoolClasses);
-        assertEquals(schoolClassesRep.saveAndFlush(schoolClasses), schoolClasses);
+        when(schoolClassesRep.saveAndFlush(any(SchoolClasses.class))).thenReturn(schoolClasses);
+        assertEquals(schoolClassesService.save("title", new Teachers()), schoolClasses);
 
-        verify(schoolClassesRep, times(1)).saveAndFlush(schoolClasses);
+//        verify(schoolClassesRep, times(1)).saveAndFlush(schoolClasses);
     }
 
     @Test
