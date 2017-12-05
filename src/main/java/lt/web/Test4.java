@@ -12,6 +12,7 @@ public class Test4 {
         static Integer maxNumbPossition;
 
     static List<Integer> arrayList2 = new ArrayList<>();
+    static int times=0;
 
 
     public static void main(String[] args) {
@@ -49,10 +50,12 @@ public class Test4 {
                     if(arrayList2.get(maxNumbPossition) < arrayList2.get(i)){
                         maxNumbPossition = i;
                     }
+                    times++;
                 }
                 parsedList.add(arrayList2.get(maxNumbPossition));
                 arrayList2.remove(arrayList2.get(maxNumbPossition));
             }
         System.out.println(parsedList);
+        System.out.println("Times calculated: " + times);
         }
 }
