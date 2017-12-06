@@ -57,5 +57,6 @@ public class Test4 {
             }
         System.out.println(parsedList);
         System.out.println("Times calculated: " + times);
+
         }
 }
